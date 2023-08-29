@@ -2,12 +2,9 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to Beer App {% endblock %}</h1>
-    {% for beer_info in all_beers %}
-        <hr>
-        <a href="{{ url_for('beer_info_page', beer_id=beer_info['id']) }}">
-            <h2>{{ beer_info['name'] }}</h2>
-        </a>
-        <span class="badge badge-primary">{{ beer_info['manufacturer'] }}</span>
-        <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:10%;height:10%;">
-    {% endfor %}
+    <p>
+        Who says you can't have beer without gluten?
+    </p>
+    <img src="../static/images/pint.png" alt="Pint" style="float:center;width:50%;height:50%;">
+
 {% endblock %}

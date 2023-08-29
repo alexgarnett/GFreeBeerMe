@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for beer_info in all_beers %}
+        <hr>
+        <a href="{{ url_for('beer_info_page', beer_id=beer_info['id']) }}">
+            <h2>{{ beer_info['name'] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ beer_info['manufacturer'] }}</span>
+        <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:10%;height:10%;">
+    {% endfor %}
+{% endblock %}

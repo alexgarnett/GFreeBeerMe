@@ -39,10 +39,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    # beer_app = BeerApp()
     all_beers = beer_app.get_all_beer_info()
+    return render_template('index.html')
 
-    return render_template('index.html', all_beers=all_beers)
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
+
+
+@app.route('/beers')
+def all_beers_page():
+    all_beers = beer_app.get_all_beer_info()
+    return render_template('all_beers.html', all_beers=all_beers)
 
 
 @app.route('/<int:beer_id>')
