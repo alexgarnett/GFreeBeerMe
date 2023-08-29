@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title %} {{ beer_info['name'] }} {% endblock %}</h2>
+    <span class="badge badge-primary">{{ beer_info['manufacturer'] }}</span>
+    <p>
+        {{ beer_info['city'] }}, {{ beer_info['state'] }}, {{ beer_info['country'] }}
+        <br>
+        Availability: {{ beer_info['availability'] }}
+        <br>
+        Gluten content: {{ beer_info['gf_or_gr'] }}
+    </p>
+    <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:50%;height:50%;">
+{% endblock %}
