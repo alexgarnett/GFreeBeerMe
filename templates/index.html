@@ -2,12 +2,12 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to Beer App {% endblock %}</h1>
-    {% for beer in all_beers %}
-        <a href="#">
-            <h2>{{ beer['name'] }}</h2>
-        </a>
-        <span class="badge badge-primary">{{ beer['manufacturer'] }}</span>
-        <img src="../static/images/redbridge_stock_image.webp" alt="Redbridge" style="float:right;width:10%;height:10%;">
+    {% for beer_info in all_beers %}
         <hr>
+        <a href="{{ url_for('beer_info_page', beer_id=beer_info['id']) }}">
+            <h2>{{ beer_info['name'] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ beer_info['manufacturer'] }}</span>
+        <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:10%;height:10%;">
     {% endfor %}
 {% endblock %}
