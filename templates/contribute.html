@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Want to share with us?</h1>
+    <p>
+        Do you know of a gluten free or gluten reduced beer that we don't have in our database?
+        Please fill out the form below to spread your knowledge and help people like us access more beer!
+    </p>
+    <form action="{{ url_for('submit_contribution') }}" method="post">
+        <label for="name">Beer name:</label><br>
+        <input type="text" id="name" name="name" placeholder="Redbridge"><br><br>
+        <label for="manufacturer">Beer manufacturer:</label><br>
+        <input type="text" id="manufacturer" name="manufacturer" placeholder="Anheuser-Busch"><br><br>
+        <label for="city">City manufactured in:</label><br>
+        <input type="text" id="city" name="city" placeholder="St. Louis"><br><br>
+        <label for="state">State manufactured in:</label><br>
+        <input type="text" id="state" name="state" placeholder="Missouri"><br><br>
+        <label for="country">Country manufactured in:</label><br>
+        <input type="text" id="country" name="country" placeholder="United States"><br><br>
+
+        <label for="availability">Availability:</label><br>
+        <input type="radio" id="local" name="availability" value="Local">
+        <label for="local">Local &emsp;</label>
+        <input type="radio" id="regional" name="availability" value="Regional">
+        <label for="regional">Regional &emsp;</label>
+        <input type="radio" id="national" name="availability" value="National">
+        <label for="national">National &emsp;</label>
+        <input type="radio" id="global" name="availability" value="Global">
+        <label for="global">Global &emsp;</label>
+        <input type="radio" id="availability_unknown" name="availability" value="unknown">
+        <label for="availability_unknown">Unknown &emsp;</label><br><br>
+
+        <label for="gf_or_gr">Gluten content:</label><br>
+        <input type="radio" id="gf" name="gf_or_gr" value="Gluten free">
+        <label for="gf">Gluten free &emsp;</label>
+        <input type="radio" id="gr" name="gf_or_gr" value="Gluten Reduced">
+        <label for="gr">Gluten reduced &emsp;</label>
+        <input type="radio" id="gluten_unknown" name="gf_or_gr" value="Unknown">
+        <label for="gluten_unknown">Unknown &emsp;</label><br><br>
+
+        <label for="comments">Comments:</label><br>
+        <textarea id="comments" name="comments" rows="4" cols="80" maxlength="255" placeholder="Please include any
+            additional information to help us locate and verify this beer such as website links, etc.">
+        </textarea><br><br>
+
+        <input type="submit" value="Sumbit">
+
+    </form><br><br>
+{% endblock %}

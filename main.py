@@ -1,7 +1,7 @@
 """This is the Gluten Free Beer app"""
 
 import psycopg2.extras
-from flask import Flask, render_template, views
+from flask import Flask, render_template, request
 from werkzeug.exceptions import abort
 
 
@@ -39,7 +39,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    all_beers = beer_app.get_all_beer_info()
     return render_template('index.html')
 
 
@@ -52,6 +51,29 @@ def about_page():
 def all_beers_page():
     all_beers = beer_app.get_all_beer_info()
     return render_template('all_beers.html', all_beers=all_beers)
+
+
+@app.route('/contribute')
+def contribute_page():
+    return render_template('contribute.html')
+
+
+@app.route('/contribute/submit', methods=['GET', 'POST'])
+def submit_contribution():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        manufacturer = request.form.get('manufacturer')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        country = request.form.get('country')
+        availability = request.form.get('availability')
+        gf_or_gr = request.form.get('gf_or_gr')
+        comments = request.form.get('comments')
+
+        print(name + " " + manufacturer + " " + city + " " + state + " " + country + " " + availability + " " +
+              gf_or_gr + " " + comments)
+
+        return render_template("contribution_processed.html")
 
 
 @app.route('/<int:beer_id>')
