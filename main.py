@@ -69,9 +69,10 @@ def submit_contribution():
         availability = request.form.get('availability')
         gf_or_gr = request.form.get('gf_or_gr')
         comments = request.form.get('comments')
+        email = request.form.get('email')
 
         print(name + " " + manufacturer + " " + city + " " + state + " " + country + " " + availability + " " +
-              gf_or_gr + " " + comments)
+              gf_or_gr + " " + comments + " " + email)
 
         return render_template("contribution_processed.html")
 
