@@ -1,0 +1,4 @@
+psycopg2==2.9.7
+flask==2.3.3
+flask_mail==0.9.1
+werkzeug==2.3.7
