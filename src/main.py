@@ -2,6 +2,7 @@
 
 import psycopg2.extras
 from flask import Flask, render_template, request
+from flask_mail import Mail, Message
 from werkzeug.exceptions import abort
 
 
@@ -35,6 +36,7 @@ class BeerApp:
 
 beer_app = BeerApp()
 app = Flask(__name__)
+mail = Mail(app)
 
 
 @app.route('/')
@@ -73,6 +75,19 @@ def submit_contribution():
 
         print(name + " " + manufacturer + " " + city + " " + state + " " + country + " " + availability + " " +
               gf_or_gr + " " + comments + " " + email)
+
+        msg_to_creator = Message("Submission from BeerApp received", sender=email,
+                                 recipients="alexgarnett_1@hotmail.com")
+        msg_to_creator.body = 'Submission received from {}\nBeer name: {}\nManufacturer: {}\nCity: {}\n' \
+                              'State: {}\nCountry: {}\nAvailability: {}\nGluten content: {}\nComments: {}\n'\
+            .format(email, name, manufacturer, city, state, country, availability, gf_or_gr, comments)
+
+        msg_to_contributor = Message("Thank you for your contribution to the BeerApp!!", sender='admin@beerapp.com',
+                                recipients=email)
+        msg_to_contributor.body = "No really, thank you!!"
+
+        mail.send(msg_to_creator)
+        mail.send(msg_to_contributor)
 
         return render_template("contribution_processed.html")
 
