@@ -3,4 +3,6 @@ h1 {
     color: brown;
     text-align: center;
     padding: 10px;
+    background: url('../images/beer_bubbles.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
