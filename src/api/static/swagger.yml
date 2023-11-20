@@ -1,0 +1,71 @@
+openapi: 3.0.0
+
+info:
+  title: "Beer App REST API"
+  description: "API for interacting with Beer App"
+  version: "1.0.0"
+
+server:
+  - url: "/api"
+
+components:
+  schemas:
+    Beers:
+      type: "object"
+      required:
+        - name
+      properties:
+        beer_id:
+          type: "integer"
+        name:
+          type: "string"
+        manufacturer:
+          type: "string"
+        city:
+          type: "string"
+        state:
+          type: "string"
+        country:
+          type: "string"
+        availability:
+          type: "string"
+        gf_or_gr:
+          type: "string"
+
+paths:
+  /api/beers:
+    get:
+      operationId: "beer_app.get_all_beer_info"
+      tags:
+        - "Beers"
+      summary: "Return all beers in the database"
+      responses:
+        "200":
+          description: "Successfully read all beer info"
+
+  /api/beers/{beer_id}:
+    get:
+      operationId: "beer_app.get_beer_info"
+      tags:
+        - "Beers"
+      summary: "Get one beer"
+      parameters:
+        - in: path
+          name: beer_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of beer to get
+      responses:
+        "200":
+          description: "Successfully got one beer"
+
+  /api/beers/test_1:
+      get:
+        operationId: "beer_app.get_beer_info"
+        tags:
+          - "Beers"
+        summary: "Get one beer"
+        responses:
+          "200":
+            description: "Successfully got one beer"

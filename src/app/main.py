@@ -1,40 +1,38 @@
-"""This is the Gluten Free Beer app"""
+"""
+This is the Gluten Free Beer app
+This script uses beer_api.py to access the beer database
+By default, this script looks for the API at http://127.0.0.1:8080
+This IP/port combo can be changed when running this script at the command line
+To specify a different IP/port combo, run:
+```
+python3 main.py [API_IP] [API_PORT]
+```
+Example
+```
+python3 main.py 192.0.0.1 5000
+```
+"""
 
-import psycopg2.extras
+import sys
 from flask import Flask, render_template, request
+import requests
 from flask_mail import Mail, Message
-from werkzeug.exceptions import abort
 
 
-class BeerApp:
+if len(sys.argv) > 2:
+    try:
+        API_IP = f'http://{sys.argv[1]}:'
+        API_PORT = str(sys.argv[2])
+    except Exception as e:
+        print('Invalid command line arguments')
+        print(e)
+else:
+    API_IP = 'http://127.0.0.1:'
+    API_PORT = '8080'
 
-    def __init__(self):
-        self.connection = None
-        self.cursor = None
-
-    def connect_to_database(self):
-        # Connection returns query as RealDict
-        self.connection = psycopg2.connect("dbname='beer_app' user='postgres' password='password'")
-        self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-
-    def get_beer_info(self, beer_id):
-        self.connect_to_database()
-        self.cursor.execute('SELECT * FROM information WHERE id = %s', (beer_id,))
-        beer_info = self.cursor.fetchone()
-        self.connection.close()
-        if beer_info is None:
-            abort(404)
-        return beer_info
-
-    def get_all_beer_info(self):
-        self.connect_to_database()
-        self.cursor.execute("SELECT * FROM information")  # QUERY
-        all_beers = self.cursor.fetchall()
-        self.connection.close()
-        return all_beers
+print(f'Looking for API at {API_IP}{API_PORT}')
 
 
-beer_app = BeerApp()
 app = Flask(__name__)
 mail = Mail(app)
 
@@ -49,9 +47,11 @@ def about_page():
     return render_template('about.html')
 
 
-@app.route('/beers')
+@app.route('/beers', methods=['GET'])
 def all_beers_page():
-    all_beers = beer_app.get_all_beer_info()
+    request_url = f'{API_IP}{API_PORT}/api/beers'
+    response = requests.get(request_url)
+    all_beers = response.json()
     return render_template('all_beers.html', all_beers=all_beers)
 
 
@@ -60,7 +60,7 @@ def contribute_page():
     return render_template('contribute.html')
 
 
-@app.route('/contribute/submit', methods=['GET', 'POST'])
+@app.route('/contribute/submit', methods=['POST'])
 def submit_contribution():
     if request.method == 'POST':
         name = request.form.get('name')
@@ -75,7 +75,7 @@ def submit_contribution():
 
         print(name + " " + manufacturer + " " + city + " " + state + " " + country + " " + availability + " " +
               gf_or_gr + " " + comments + " " + email)
-
+        # todo: enter data into DB
         msg_to_creator = Message("Submission from BeerApp received", sender=email,
                                  recipients="alexgarnett_1@hotmail.com")
         msg_to_creator.body = 'Submission received from {}\nBeer name: {}\nManufacturer: {}\nCity: {}\n' \
@@ -92,12 +92,14 @@ def submit_contribution():
         return render_template("contribution_processed.html")
 
 
-@app.route('/<int:beer_id>')
-def beer_info_page(beer_id):
-    beer_info = beer_app.get_beer_info(beer_id)
+@app.route('/beers/<int:beer_id>', methods=['GET'])
+def beer_info_page(beer_id: int):
+    request_url = f'{API_IP}{API_PORT}/api/beers/{beer_id}'
+    response = requests.get(request_url)
+    beer_info = response.json()
     return render_template('beer_info.html', beer_info=beer_info)
 
 
 if __name__ == '__main__':
-    main()
+    app.run(host="0.0.0.0", port=8000, debug=True)
 

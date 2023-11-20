@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS information;
 
 CREATE TABLE information (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     manufacturer TEXT,
     city TEXT,
     state TEXT,
