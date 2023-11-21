@@ -11,31 +11,30 @@ server:
 components:
   schemas:
     Beers:
-      type: "object"
+      type: object
       required:
         - name
       properties:
         beer_id:
-          type: "integer"
+          type: integer
         name:
-          type: "string"
+          type: string
         manufacturer:
-          type: "string"
+          type: string
         city:
-          type: "string"
+          type: string
         state:
-          type: "string"
+          type: string
         country:
-          type: "string"
+          type: string
         availability:
-          type: "string"
+          type: string
         gf_or_gr:
-          type: "string"
+          type: string
 
 paths:
   /api/beers:
     get:
-      operationId: "beer_app.get_all_beer_info"
       tags:
         - "Beers"
       summary: "Return all beers in the database"
@@ -45,7 +44,6 @@ paths:
 
   /api/beers/{beer_id}:
     get:
-      operationId: "beer_app.get_beer_info"
       tags:
         - "Beers"
       summary: "Get one beer"
@@ -61,11 +59,43 @@ paths:
           description: "Successfully got one beer"
 
   /api/beers/test_1:
-      get:
-        operationId: "beer_app.get_beer_info"
-        tags:
-          - "Beers"
-        summary: "Get one beer"
+    get:
+      tags:
+        - "Beers"
+      summary: "Test getting beer with beer_id=1"
+      responses:
+        "200":
+          description: "Successfully got one beer"
+
+  /api/contribute:
+    post:
+      tags:
+        - "Contribute"
+      summary: "Test the contribute endpoint"
+      requestBody:
+        description: "Adds a new beer to the database"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                manufacturer:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                country:
+                  type: string
+                availability:
+                  type: string
+                gf_or_gr:
+                  type: string
         responses:
-          "200":
-            description: "Successfully got one beer"
+          '201':
+            description: "Created a new beer in the DB"

@@ -17,8 +17,11 @@ import sys
 from flask import Flask, render_template, request
 import requests
 from flask_mail import Mail, Message
+from beer_app import *
 
 
+API_IP = 'http://127.0.0.1:'
+API_PORT = '8080'
 if len(sys.argv) > 2:
     try:
         API_IP = f'http://{sys.argv[1]}:'
@@ -26,9 +29,6 @@ if len(sys.argv) > 2:
     except Exception as e:
         print('Invalid command line arguments')
         print(e)
-else:
-    API_IP = 'http://127.0.0.1:'
-    API_PORT = '8080'
 
 print(f'Looking for API at {API_IP}{API_PORT}')
 
@@ -62,6 +62,7 @@ def contribute_page():
 
 @app.route('/contribute/submit', methods=['POST'])
 def submit_contribution():
+    request_url = f'{API_IP}{API_PORT}/api/contribute'
     if request.method == 'POST':
         name = request.form.get('name')
         manufacturer = request.form.get('manufacturer')
@@ -73,23 +74,34 @@ def submit_contribution():
         comments = request.form.get('comments')
         email = request.form.get('email')
 
-        print(name + " " + manufacturer + " " + city + " " + state + " " + country + " " + availability + " " +
-              gf_or_gr + " " + comments + " " + email)
-        # todo: enter data into DB
-        msg_to_creator = Message("Submission from BeerApp received", sender=email,
-                                 recipients="alexgarnett_1@hotmail.com")
-        msg_to_creator.body = 'Submission received from {}\nBeer name: {}\nManufacturer: {}\nCity: {}\n' \
-                              'State: {}\nCountry: {}\nAvailability: {}\nGluten content: {}\nComments: {}\n'\
-            .format(email, name, manufacturer, city, state, country, availability, gf_or_gr, comments)
+        beer_dict = {
+            'name': name,
+            'manufacturer': manufacturer,
+            'city': city,
+            'state': state,
+            'country': country,
+            'availability': availability,
+            'gf_or_gr': gf_or_gr
+        }
+        response = requests.post(request_url, json=beer_dict)
 
-        msg_to_contributor = Message("Thank you for your contribution to the BeerApp!!", sender='admin@beerapp.com',
-                                recipients=email)
-        msg_to_contributor.body = "No really, thank you!!"
+        # msg_to_creator = Message("Submission from BeerApp received", sender=email,
+        #                          recipients="alexgarnett_1@hotmail.com")
+        # msg_to_creator.body = 'Submission received from {}\nBeer name: {}\nManufacturer: {}\nCity: {}\n' \
+        #                       'State: {}\nCountry: {}\nAvailability: {}\nGluten content: {}\nComments: {}\n'\
+        #     .format(email, name, manufacturer, city, state, country, availability, gf_or_gr, comments)
+        #
+        # msg_to_contributor = Message("Thank you for your contribution to the BeerApp!!", sender='admin@beerapp.com',
+        #                         recipients=email)
+        # msg_to_contributor.body = "No really, thank you!!"
+        #
+        # mail.send(msg_to_creator)
+        # mail.send(msg_to_contributor)
 
-        mail.send(msg_to_creator)
-        mail.send(msg_to_contributor)
-
-        return render_template("contribution_processed.html")
+        if response.status_code == 201:
+            return render_template("contribution_processed.html")
+        else:
+            abort(401)
 
 
 @app.route('/beers/<int:beer_id>', methods=['GET'])
