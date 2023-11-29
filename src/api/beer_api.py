@@ -6,9 +6,10 @@ The API uses OpenAPI documentation which is described in static/swagger.yml
 The API also uses SwaggerUI for visualization and documentation
 SwaggerUI can be accessed at {API_URL}{API_PORT}/api, which by default is http://127.0.0.1:8080/api
 """
+
 from flask import Flask, request
 from flask_swagger_ui import get_swaggerui_blueprint
-from src.app.beer_app import *
+from src.api.api_functions import *
 
 api = Flask(__name__)
 

@@ -16,8 +16,8 @@ python3 main.py 192.0.0.1 5000
 import sys
 from flask import Flask, render_template, request
 import requests
-from flask_mail import Mail, Message
-from beer_app import *
+from flask_mail import Mail
+from src.api.api_functions import *
 
 
 API_IP = 'http://127.0.0.1:'
