@@ -1,3 +1,5 @@
 # beer_app
 
-In venv & beer_app directory run "flask --app src/app/main run"
+This is a web app that will help users locate and access gluten free beer.
+
+App in progress :arrows_counterclockwise:
