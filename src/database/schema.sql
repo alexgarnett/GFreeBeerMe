@@ -10,3 +10,16 @@ CREATE TABLE information (
     availability TEXT,
     gf_or_gr TEXT
 );
+
+INSERT INTO information (
+    id, name, manufacturer, city, state, country,
+    availability, gf_or_gr
+    )
+VALUES (
+    1, 'Redbridge', 'Anheuser-Busch', 'St. Louis',
+    'Missouri', 'United States', 'National', 'GF'
+    ),
+    (
+    2, 'Copperpoint Lager', 'Copperpoint', 'Boynton Beach',
+    'Florida', 'United States', 'Local', 'GR'
+    );

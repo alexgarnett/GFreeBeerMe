@@ -35,9 +35,9 @@ def beer_info(beer_id: int):
     return get_beer_info(beer_id)
 
 
-@api.route(SWAGGER_URL + "/beers/test_1", methods=['GET'])
-def test_beer_info(beer_id=1):
-    return get_beer_info(beer_id)
+# @api.route(SWAGGER_URL + "/beers/test_1", methods=['GET'])
+# def test_beer_info(beer_id=1):
+#     return get_beer_info(beer_id)
 
 
 @api.route(SWAGGER_URL + "/contribute", methods=['GET', 'POST'])

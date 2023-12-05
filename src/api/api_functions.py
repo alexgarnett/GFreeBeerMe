@@ -2,15 +2,24 @@
 This script contains helper functions for the app,
 and handles interacting with the database
 """
+import os
 import flask
 import psycopg2.extras
 from werkzeug.exceptions import abort
+
+DB_NAME = os.getenv('POSTGRES_DB', default='beer_app')
+USER = os.getenv('POSTGRES_USER', default='postgres')
+PASSWORD = os.getenv('POSTGRES_PASSWORD', default='password')
+DB_HOST = os.getenv('DB_HOST', default='localhost')
+DB_PORT = os.getenv('DB_PORT', default='5432')
 
 
 def connect_to_database():
     # Connection returns query as RealDict
     try:
-        connection = psycopg2.connect("dbname='beer_app' user='postgres' password='password'")
+        connection = psycopg2.connect(f"dbname={DB_NAME} user={USER} "
+                                      f"password={PASSWORD} host={DB_HOST} "
+                                      f"port={DB_PORT}")
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         return connection, cursor
     except Exception as e:

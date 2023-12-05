@@ -1,40 +1,23 @@
 """
 This is the Gluten Free Beer app
 This script uses beer_api.py to access the beer database
-By default, this script looks for the API at http://127.0.0.1:8080
-This IP/port combo can be changed when running this script at the command line
-To specify a different IP/port combo, run:
-```
-python3 main.py [API_IP] [API_PORT]
-```
-Example
-```
-python3 main.py 192.0.0.1 5000
-```
+By default, this script looks for the API at http://localhost:8080
 """
 
+import os
 import sys
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import requests
-from flask_mail import Mail
-from src.api.api_functions import *
+# from flask_mail import Mail
 
+API_HOST = f"http://{os.getenv('API_HOST', default='localhost')}"
+API_PORT = os.getenv('API_PORT', default='8080')
 
-API_IP = 'http://127.0.0.1:'
-API_PORT = '8080'
-if len(sys.argv) > 2:
-    try:
-        API_IP = f'http://{sys.argv[1]}:'
-        API_PORT = str(sys.argv[2])
-    except Exception as e:
-        print('Invalid command line arguments')
-        print(e)
-
-print(f'Looking for API at {API_IP}{API_PORT}')
+print(f'Looking for API at {API_HOST}:{API_PORT}')
 
 
 app = Flask(__name__)
-mail = Mail(app)
+# mail = Mail(app)
 
 
 @app.route('/')
@@ -49,7 +32,7 @@ def about_page():
 
 @app.route('/beers', methods=['GET'])
 def all_beers_page():
-    request_url = f'{API_IP}{API_PORT}/api/beers'
+    request_url = f'{API_HOST}:{API_PORT}/api/beers'
     response = requests.get(request_url)
     all_beers = response.json()
     return render_template('all_beers.html', all_beers=all_beers)
@@ -62,7 +45,7 @@ def contribute_page():
 
 @app.route('/contribute/submit', methods=['POST'])
 def submit_contribution():
-    request_url = f'{API_IP}{API_PORT}/api/contribute'
+    request_url = f'{API_HOST}:{API_PORT}/api/contribute'
     if request.method == 'POST':
         name = request.form.get('name')
         manufacturer = request.form.get('manufacturer')
@@ -106,7 +89,7 @@ def submit_contribution():
 
 @app.route('/beers/<int:beer_id>', methods=['GET'])
 def beer_info_page(beer_id: int):
-    request_url = f'{API_IP}{API_PORT}/api/beers/{beer_id}'
+    request_url = f'{API_HOST}:{API_PORT}/api/beers/{beer_id}'
     response = requests.get(request_url)
     beer_info = response.json()
     return render_template('beer_info.html', beer_info=beer_info)
