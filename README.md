@@ -11,7 +11,7 @@ info about it. Users can also submit a beer under the "Contribute" tab.
 # Installation
 Make sure you have the latest version of Docker properly installed. Then, clone into the repo
 ```
-git clone https://github.com/alexgarnett/beer_app
+git clone https://github.com/alexgarnett/GFreeBeerMe
 ```
 
 # Run the App
