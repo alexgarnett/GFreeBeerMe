@@ -7,8 +7,9 @@ def run():
     cursor = conn.cursor()
     cursor.execute(open("schema.sql", "r").read())
 
-    cursor.execute("INSERT INTO information (id, name, manufacturer, city, state, country, availability, gf_or_gr) "
-                   "VALUES (1, 'Redbridge', 'Anheuser-Busch', 'St. Louis', 'Missouri', 'United States', 'National', 'GF')")
+    # Moved the following lines into schema.sql
+    # cursor.execute("INSERT INTO information (id, name, manufacturer, city, state, country, availability, gf_or_gr) "
+    #                "VALUES (1, 'Redbridge', 'Anheuser-Busch', 'St. Louis', 'Missouri', 'United States', 'National', 'GF')")
 
     conn.commit()
     conn.close()

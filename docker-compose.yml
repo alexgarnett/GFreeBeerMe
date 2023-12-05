@@ -1,0 +1,48 @@
+# Docker host IP 172.17.0.5
+
+services:
+
+  db:
+    container_name: beer_db
+    build: ./src/database/
+    ports:
+      - "5433:5432"
+    networks:
+      - beer_app_network
+    volumes:
+      - beer_app_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: beer_app
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  api:
+    container_name: beer_api
+    build: ./src/api/
+    ports:
+      - "8080:8080"
+    networks:
+      - beer_app_network
+    environment:
+      DB_HOST: beer_db
+      DB_PORT: 5432
+
+  app:
+    container_name: beer_app
+    build: ./src/app/
+    ports:
+      - "8000:8000"
+    networks:
+      - beer_app_network
+    environment:
+      API_HOST: beer_api
+      API_PORT: 8080
+
+volumes:
+  beer_app_volume:
+    external: true
+
+networks:
+  beer_app_network:
+    external: true

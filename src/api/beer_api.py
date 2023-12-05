@@ -9,7 +9,7 @@ SwaggerUI can be accessed at {API_URL}{API_PORT}/api, which by default is http:/
 
 from flask import Flask, request
 from flask_swagger_ui import get_swaggerui_blueprint
-from src.api.api_functions import *
+from api_functions import *
 
 api = Flask(__name__)
 
@@ -35,9 +35,9 @@ def beer_info(beer_id: int):
     return get_beer_info(beer_id)
 
 
-@api.route(SWAGGER_URL + "/beers/test_1", methods=['GET'])
-def test_beer_info(beer_id=1):
-    return get_beer_info(beer_id)
+# @api.route(SWAGGER_URL + "/beers/test_1", methods=['GET'])
+# def test_beer_info(beer_id=1):
+#     return get_beer_info(beer_id)
 
 
 @api.route(SWAGGER_URL + "/contribute", methods=['GET', 'POST'])
