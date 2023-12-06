@@ -45,4 +45,3 @@ volumes:
 
 networks:
   beer_app_network:
-    external: true
