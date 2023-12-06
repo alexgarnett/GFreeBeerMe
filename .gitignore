@@ -2,3 +2,4 @@ venv
 .idea
 /__pycache__/
 .pytest_cache
+/src/tests/test_database.py
