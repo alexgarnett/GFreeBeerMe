@@ -1,8 +1,9 @@
-import requests
-
+import os
 from src.api.beer_api import *
 import pytest
 
+
+os.environ["DB_HOST"] = 'beer_api'
 
 @pytest.fixture
 def client():
