@@ -3,8 +3,6 @@ from src.api.beer_api import *
 import pytest
 
 
-os.environ["DB_HOST"] = 'beer_api'
-
 @pytest.fixture
 def client():
     with api.test_client() as client:

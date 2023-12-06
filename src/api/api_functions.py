@@ -10,7 +10,7 @@ from werkzeug.exceptions import abort
 DB_NAME = os.getenv('POSTGRES_DB', default='beer_app')
 USER = os.getenv('POSTGRES_USER', default='postgres')
 PASSWORD = os.getenv('POSTGRES_PASSWORD', default='password')
-DB_HOST = os.getenv('DB_HOST', default='localhost')
+DB_HOST = 'beer_api' #os.getenv('DB_HOST', default='localhost')
 DB_PORT = os.getenv('DB_PORT', default='5432')
 
 
