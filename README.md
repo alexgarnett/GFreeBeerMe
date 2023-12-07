@@ -22,7 +22,7 @@ docker compose up
 By default, the app is hosted at https://localhost:8000
 
 # Testing
-In the root directory, run pytest
+In order to perform testing, all containers must be running. Then, in the root directory, run pytest.
 ```
 pytest
 ```
