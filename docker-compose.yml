@@ -11,6 +11,7 @@ services:
       - beer_app_network
     volumes:
       - beer_app_volume:/var/lib/postgresql/data
+      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -42,9 +43,7 @@ services:
 volumes:
   beer_app_volume:
     name: beer_app_volume
-#    external: true
 
 networks:
   beer_app_network:
     name: beer_app_network
-#    external: true
