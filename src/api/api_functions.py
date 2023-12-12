@@ -10,7 +10,7 @@ from werkzeug.exceptions import abort
 DB_NAME = os.getenv('POSTGRES_DB', default='beer_app')
 USER = os.getenv('POSTGRES_USER', default='postgres')
 PASSWORD = os.getenv('POSTGRES_PASSWORD', default='password')
-DB_HOST = os.getenv('DB_HOST', default='beer_db')
+DB_HOST = os.getenv('DB_HOST', default='localhost')
 DB_PORT = os.getenv('DB_PORT', default='5432')
 
 
@@ -30,7 +30,7 @@ def get_beer_info(beer_id):
     try:
         connection, cursor = connect_to_database()
         cursor.execute('SELECT * FROM information '
-                       'WHERE id = %s', (beer_id,)
+                       'WHERE id = %s;', (beer_id,)
                        )
         beer_info = cursor.fetchone()
         connection.close()
@@ -45,10 +45,28 @@ def get_beer_info(beer_id):
     return beer_info
 
 
+def get_all_encounters(beer_id: int):
+    try:
+        connection, cursor = connect_to_database()
+        cursor.execute('SELECT * FROM encounters '
+                       'WHERE id = %s;', (beer_id,)
+                       )
+        fetch_size = cursor.arraysize
+        if fetch_size > 20:
+            fetch_size = 20
+        encounters = cursor.fetchmany(fetch_size)
+        connection.close()
+    except Exception as e:
+        print("Exception when attempting to fetch encounters: " + str(e))
+        encounters = None
+
+    return encounters
+
+
 def get_all_beer_info():
     try:
         connection, cursor = connect_to_database()
-        cursor.execute("SELECT * FROM information")
+        cursor.execute("SELECT * FROM information;")
         all_beers = cursor.fetchall()
         all_beers = [dict(row) for row in all_beers]
         connection.close()

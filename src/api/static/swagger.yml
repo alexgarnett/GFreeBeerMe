@@ -58,6 +58,22 @@ paths:
         "200":
           description: "Successfully got one beer"
 
+  /api/beers/{beer_id}/encounters:
+    get:
+      tags:
+        - "Encounters"
+      summary: "Get all encounters for given beer ID"
+      parameters:
+        - in: path
+          name: beer_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of beer to get encounters for
+      responses:
+        "200":
+          description: "Successfully got encounters for the beer"
+
   /api/beers/test_1:
     get:
       tags:

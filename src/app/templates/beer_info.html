@@ -11,4 +11,17 @@
         Gluten content: {{ beer_info['gf_or_gr'] }}
     </p>
     <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:50%;height:50%;">
+    <section id="encounters-section">
+        <h3>Encounters</h3>
+        {% for encounter in encounters %}
+            <p>
+                Date: {{ encounter['date_of'] }}
+                <br>
+                Location: {{ encounter['location'] }}
+                <br>
+                Info: <br> {{ encounter['content'] }}
+            </p>
+        {% endfor %}
+    </section>
+
 {% endblock %}

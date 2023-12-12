@@ -89,10 +89,13 @@ def submit_contribution():
 
 @app.route('/beers/<int:beer_id>', methods=['GET'])
 def beer_info_page(beer_id: int):
-    request_url = f'{API_HOST}:{API_PORT}/api/beers/{beer_id}'
-    response = requests.get(request_url)
+    beer_id_url = f'{API_HOST}:{API_PORT}/api/beers/{beer_id}'
+    response = requests.get(beer_id_url)
     beer_info = response.json()
-    return render_template('beer_info.html', beer_info=beer_info)
+    encounters_url = beer_id_url + '/encounters'
+    encounters_response = requests.get(encounters_url)
+    encounters = encounters_response.json()
+    return render_template('beer_info.html', beer_info=beer_info, encounters=encounters)
 
 
 if __name__ == '__main__':
