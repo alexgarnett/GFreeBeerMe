@@ -16,7 +16,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: beer_app
-      POSTGRES_HOST_AUTH_METHOD: trust
 
   api:
     container_name: beer_api

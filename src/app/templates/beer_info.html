@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <img src="../static/images/{{ beer_info['name'] }}.png" alt="{{ beer_info['name'] }}" style="float:right;max-width:300px;max-height:300px;">
     <h2>{% block title %} {{ beer_info['name'] }} {% endblock %}</h2>
-    <span class="badge badge-primary">{{ beer_info['manufacturer'] }}</span>
+    <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ beer_info['manufacturer'] }}</span>
     <p>
-        {{ beer_info['city'] }}, {{ beer_info['state'] }}, {{ beer_info['country'] }}
+        From: {{ beer_info['city'] }}, {{ beer_info['state'] }}, {{ beer_info['country'] }}
         <br>
         Availability: {{ beer_info['availability'] }}
         <br>
         Gluten content: {{ beer_info['gf_or_gr'] }}
     </p>
-    <img src="../static/images/{{ beer_info['name'] }}.png" alt="Redbridge" style="float:right;width:50%;height:50%;">
     <section id="encounters-section">
         <h3>Encounters</h3>
+        <div class="encounters-box">
         {% for encounter in encounters %}
-            <p>
+            <p style="padding:5px 20px 5px 20px;">
                 Date: {{ encounter['date_of'] }}
                 <br>
                 Location: {{ encounter['location'] }}
                 <br>
                 Info: <br> {{ encounter['content'] }}
             </p>
+            <hr>
         {% endfor %}
+        </div>
     </section>
 
 {% endblock %}

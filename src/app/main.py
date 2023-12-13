@@ -92,9 +92,26 @@ def beer_info_page(beer_id: int):
     beer_id_url = f'{API_HOST}:{API_PORT}/api/beers/{beer_id}'
     response = requests.get(beer_id_url)
     beer_info = response.json()
+    gluten_content = beer_info['gf_or_gr']
+    if gluten_content == 'GF':
+        beer_info['gf_or_gr'] = 'Gluten Free'
+    elif gluten_content == 'GR':
+        beer_info['gf_or_gr'] = 'Gluten Reduced'
+
     encounters_url = beer_id_url + '/encounters'
     encounters_response = requests.get(encounters_url)
     encounters = encounters_response.json()
+    # Format data for the encounters
+    for encounter in encounters:
+        date = encounter['date_of']
+        date = date.split(' ')
+        encounter['date_of'] = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3]
+        coordinates = encounter['location']
+        coordinates = coordinates.split(',')
+        lat = coordinates[0][1:]
+        lon = coordinates[1][:-1]
+        encounter['location'] = lat + 'N, ' + lon + 'W'
+
     return render_template('beer_info.html', beer_info=beer_info, encounters=encounters)
 
 

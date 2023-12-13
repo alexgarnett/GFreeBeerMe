@@ -66,7 +66,7 @@ def get_all_encounters(beer_id: int):
 def get_all_beer_info():
     try:
         connection, cursor = connect_to_database()
-        cursor.execute("SELECT * FROM information;")
+        cursor.execute("SELECT * FROM information ORDER BY manufacturer ASC;")
         all_beers = cursor.fetchall()
         all_beers = [dict(row) for row in all_beers]
         connection.close()
