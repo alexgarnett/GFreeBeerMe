@@ -8,6 +8,7 @@ import os
 import sys
 from flask import Flask, render_template, request, abort
 import requests
+from geopy.geocoders import Nominatim
 # from flask_mail import Mail
 
 API_HOST = f"http://{os.getenv('API_HOST', default='localhost')}"
@@ -110,7 +111,12 @@ def beer_info_page(beer_id: int):
         coordinates = coordinates.split(',')
         lat = coordinates[0][1:]
         lon = coordinates[1][:-1]
-        encounter['location'] = lat + 'N, ' + lon + 'W'
+        geolocator = Nominatim(user_agent="beer_app")
+        geolocation = geolocator.reverse((float(lat), float(lon)))
+        if geolocation is not None:
+            encounter['location'] = geolocation.address
+        else:
+            encounter['location'] = lat + 'N, ' + lon + 'W'
 
     return render_template('beer_info.html', beer_info=beer_info, encounters=encounters)
 
