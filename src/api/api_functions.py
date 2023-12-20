@@ -45,24 +45,6 @@ def get_beer_info(beer_id):
     return beer_info
 
 
-def get_all_encounters(beer_id: int):
-    try:
-        connection, cursor = connect_to_database()
-        cursor.execute('SELECT * FROM encounters '
-                       'WHERE id = %s;', (beer_id,)
-                       )
-        fetch_size = cursor.arraysize
-        if fetch_size > 20:
-            fetch_size = 20
-        encounters = cursor.fetchmany(fetch_size)
-        connection.close()
-    except Exception as e:
-        print("Exception when attempting to fetch encounters: " + str(e))
-        encounters = None
-
-    return encounters
-
-
 def get_all_beer_info():
     try:
         connection, cursor = connect_to_database()
@@ -105,3 +87,41 @@ def add_beer_to_db(beer: dict):
         response.reason = f"Error creating {beer['name']}"
 
     return response
+
+
+def get_encounters(beer_id: int):
+    try:
+        connection, cursor = connect_to_database()
+        cursor.execute('SELECT * FROM encounters '
+                       'WHERE id = %s;', (beer_id,)
+                       )
+        fetch_size = cursor.arraysize
+        if fetch_size > 20:
+            fetch_size = 20
+        encounters = cursor.fetchmany(fetch_size)
+        connection.close()
+    except Exception as e:
+        print("Exception when attempting to fetch encounters: " + str(e))
+        encounters = None
+
+    return encounters
+
+
+def get_all_encounters():
+    try:
+        connection, cursor = connect_to_database()
+        cursor.execute('SELECT encounters.id, information.name, '
+                       'information.manufacturer, information.gf_or_gr, '
+                       'encounters.date_of, encounters.location, '
+                       'encounters.content '
+                       'FROM encounters '
+                       'INNER JOIN information ON encounters.id=information.id;')
+        encounters = cursor.fetchall()
+        # encounters = [dict(row) for row in encounters]
+        connection.close()
+
+    except Exception as e:
+        print("Exception when attempting to fetch encounters: " + str(e))
+        encounters = None
+
+    return encounters

@@ -83,6 +83,15 @@ paths:
         "200":
           description: "Successfully got one beer"
 
+  /api/all_encounters:
+    get:
+      tags:
+        - "Encounters"
+      summary: "Get all encounters in the database"
+      responses:
+        "200":
+          description: "Successfully got all encounters"
+
   /api/contribute:
     post:
       tags:

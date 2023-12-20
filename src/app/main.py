@@ -9,6 +9,7 @@ import sys
 from flask import Flask, render_template, request, abort
 import requests
 from geopy.geocoders import Nominatim
+from geopy import distance
 # from flask_mail import Mail
 
 API_HOST = f"http://{os.getenv('API_HOST', default='localhost')}"
@@ -55,19 +56,7 @@ def beer_info_page(beer_id: int):
     encounters = encounters_response.json()
     # Format data for the encounters
     for encounter in encounters:
-        date = encounter['date_of']
-        date = date.split(' ')
-        encounter['date_of'] = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3]
-        coordinates = encounter['location']
-        coordinates = coordinates.split(',')
-        lat = coordinates[0][1:]
-        lon = coordinates[1][:-1]
-        geolocator = Nominatim(user_agent="beer_app")
-        geolocation = geolocator.reverse((float(lat), float(lon)))
-        if geolocation is not None:
-            encounter['location'] = geolocation.address
-        else:
-            encounter['location'] = lat + 'N, ' + lon + 'W'
+        format_encounter_data(encounter)
 
     return render_template('beer_info.html', beer_info=beer_info, encounters=encounters)
 
@@ -119,6 +108,67 @@ def submit_contribution():
             return render_template("contribution_processed.html")
         else:
             abort(401)
+
+
+@app.route('/locate')
+def locate_page():
+    return render_template("locate_page.html")
+
+
+@app.route('/locate/results', methods=['POST'])
+def locate_results():
+    if request.method == 'POST':
+        geolocator = Nominatim(user_agent="beer_app")
+
+        user_location = request.form.get('user_location')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        search_radius = int(request.form.get('distance'))
+
+        if user_location:
+            center_coordinates = str_coordinates_to_float_tuple(user_location)
+
+        else:
+            geolocation = geolocator.geocode(city + ', ' + state)
+            center_coordinates = (geolocation.latitude, geolocation.longitude)
+
+        # Call all encounters endpoint of api
+        all_encounters_url = f'{API_HOST}:{API_PORT}/api/all_encounters'
+        all_encounters = requests.get(all_encounters_url).json()
+
+        # Filter by distance
+        filtered_encounters = []
+        for encounter in all_encounters:
+            encounter_coordinates = str_coordinates_to_float_tuple(encounter['location'])
+            if distance.distance(center_coordinates, encounter_coordinates).miles <= search_radius:
+                format_encounter_data(encounter)
+                filtered_encounters.append(encounter)
+
+        # Render template with the filtered list of encounters
+        return render_template("encounters.html", encounters=filtered_encounters)
+
+def str_coordinates_to_float_tuple(coordinates: str) -> tuple:
+    stripped_parenthesis = coordinates.strip('()')
+    split = stripped_parenthesis.split(',')
+    float_tuple = (float(split[0]), float(split[1]))
+    return float_tuple
+
+
+def format_encounter_data(encounter):
+    date = encounter['date_of']
+    date = date.split(' ')
+    encounter['date_of'] = date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3]
+    coordinates = encounter['location']
+    coordinates = coordinates.split(',')
+    lat = coordinates[0][1:]
+    lon = coordinates[1][:-1]
+    encounter['location'] = lat + 'N, ' + lon + 'W'
+    geolocator = Nominatim(user_agent="beer_app")
+    geolocation = geolocator.reverse((float(lat), float(lon)))
+    if geolocation is not None:
+        encounter['address'] = geolocation.address
+    else:
+        encounter['address'] = 'Not available'
 
 
 if __name__ == '__main__':

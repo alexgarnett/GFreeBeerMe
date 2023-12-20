@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <script>
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(updatePosition);
+          } else {
+            document.getElementById("user_location").value = "error";
+          }
+        }
+
+        function updatePosition(position) {
+          document.getElementById("user_location").value = "(" + position.coords.latitude +
+          ", " + position.coords.longitude + ")";
+        }
+    </script>
+    <!-- User location feature, city/state search feature, search distance -->
+    <h2>Enter location info below to find beers</h2>
+    <form action="{{ url_for('locate_results') }}" method="post" style="color:white;font-size:28px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+        <label for="distance">Search within </label>
+        <select id="distance" name="distance" style="font-size:24px;border-radius:6px;">
+            <option value="5" selected="selected">5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+            <option value="100">100 miles</option>
+        </select>
+        <br>
+        <label for="user_location_checkbox">Use My Location</label>
+        <input type="checkbox" id="user_location_checkbox" onclick="getLocation()" style="height:20px;width:20px;vertical-align:middle;">
+        <input type="hidden" id="user_location" name="user_location">
+        <br>Or Enter<br>
+        <input type="text" id="city" name="city" placeholder="City" size="8" style="font-size:20px;border-radius:6px;">
+        <input type="text" id="state" name="state" placeholder="State" size="8" style="font-size:20px;border-radius:6px;">
+        <br><br>
+        <input type="submit" value="Search" style="background-color:black;color:white;border-radius:6px;font-size:20px;">
+    </form>
+{% endblock %}
+
