@@ -13,19 +13,19 @@
     </p>
     <section id="encounters-section">
         <h3>Encounters</h3>
-        <div class="encounters-box">
-        {% for encounter in encounters %}
-            <p style="padding:5px 20px 5px 20px;">
-                Date: {{ encounter['date_of'] }}
-                <br>
-                Address: {{ encounter['address'] }}
-                <br>
-                Location: {{ encounter['location'] }}
-                <br>
-                Info: <br> {{ encounter['content'] }}
-            </p>
-            <hr>
-        {% endfor %}
+        <div class="white-box">
+            {% for encounter in encounters %}
+                <p style="padding:5px 20px 5px 20px;">
+                    Date: {{ encounter['date_of'] }}
+                    <br>
+                    Address: {{ encounter['address'] }}
+                    <br>
+                    GPS: {{ encounter['location'] }}
+                    <br>
+                    Description: <br> {{ encounter['content'] }}
+                </p>
+                <hr>
+            {% endfor %}
         </div>
     </section>
 

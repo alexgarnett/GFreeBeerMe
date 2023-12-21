@@ -1,22 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for encounter in encounters %}
+    {% for beer in encounters %}
         <hr>
-        <a href="{{ url_for('beer_info_page', beer_id=encounter['id']) }}">
-            <h2>{{ encounter['name'] }}</h2>
+        <a href="{{ url_for('beer_info_page', beer_id=beer['id']) }}">
+            <h2>{{ beer['name'] }}</h2>
         </a>
-        <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ encounter['manufacturer'] }}</span>
-        <div class="encounters-box">
-            <p style="padding:5px 20px 5px 20px;">
-                Date: {{ encounter['date_of'] }}
-                <br>
-                Address: {{ encounter['address'] }}
-                <br>
-                Location: {{ encounter['location'] }}
-                <br>
-                Info: <br> {{ encounter['content'] }}
-            </p>
+        <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ beer['manufacturer'] }}</span>
+        <br><br>
+        <div class="white-box">
+            {% for encounter in beer['encounters'] %}
+                <p style="padding:5px 20px 5px 20px;">
+                    Distance: {{ encounter['distance'] }} miles
+                    <br>
+                    Date: {{ encounter['date_of'] }}
+                    <br>
+                    Address: {{ encounter['address'] }}
+                    <br>
+                    GPS: {{ encounter['location'] }}
+                    <br>
+                    Description: <br> {{ encounter['content'] }}
+                    <hr>
+                </p>
+            {% endfor %}
         </div>
     {% endfor %}
 {% endblock %}

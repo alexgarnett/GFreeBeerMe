@@ -26,7 +26,7 @@ VALUES (
     );
 
 CREATE TABLE encounters (
-    id INTEGER PRIMARY KEY,
+    id INTEGER,
     date_of DATE NOT NULL,
     location POINT NOT NULL,
     address TEXT,
@@ -40,4 +40,12 @@ VALUES (
     2, '2023-11-25', '(26.571146, -80.0887830)',
     '4770 N Congress Ave, Boynton Beach, FL 33426, United States',
     'I found a 6-pack of Copperpoint Lager in the beer cooler at Publix'
-);
+    ),
+    (
+    2, '2023-12-15', '(26.56, -80.09)',
+    '', 'Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter'
+    ),
+    (
+    1, '2023-12-15', '(26.56, -80.09)',
+    '', 'Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter Test Encounter'
+    );

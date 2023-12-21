@@ -136,16 +136,43 @@ def locate_results():
         all_encounters_url = f'{API_HOST}:{API_PORT}/api/all_encounters'
         all_encounters = requests.get(all_encounters_url).json()
 
+        # Structure for filtered_encounters
+        # [{'name': 'Redbridge',
+        #   'manufacturer': 'Anheuser-Busch',
+        #   'encounters': [encounter1, encounter2, ...]},
+        #  {'name': 'Copperpoint Lager',
+        #   'manufacturer': 'Copperpoint',
+        #   'encounters': [encounter1, encounter2, ...]}]
+
         # Filter by distance
         filtered_encounters = []
         for encounter in all_encounters:
             encounter_coordinates = str_coordinates_to_float_tuple(encounter['location'])
-            if distance.distance(center_coordinates, encounter_coordinates).miles <= search_radius:
+            distance_to_encounter = distance.distance(center_coordinates, encounter_coordinates).miles
+            if distance_to_encounter <= search_radius:
                 format_encounter_data(encounter)
-                filtered_encounters.append(encounter)
+                encounter['distance'] = round(distance_to_encounter, 1)
+                if len(filtered_encounters) < 1:
+                    new_entry = {'name': encounter['name'],
+                                 'manufacturer': encounter['manufacturer'],
+                                 'id': encounter['id'],
+                                 'encounters': [encounter]}
+                    filtered_encounters.append(new_entry)
+                else:
+                    for filtered in filtered_encounters:
+                        if filtered['id'] == encounter['id']:
+                            filtered['encounters'].append(encounter)
+                        else:
+                            new_entry = {'name': encounter['name'],
+                                         'manufacturer': encounter['manufacturer'],
+                                         'id': encounter['id'],
+                                         'encounters': [encounter]}
+                            filtered_encounters.append(new_entry)
 
+        # return filtered_encounters
         # Render template with the filtered list of encounters
         return render_template("encounters.html", encounters=filtered_encounters)
+
 
 def str_coordinates_to_float_tuple(coordinates: str) -> tuple:
     stripped_parenthesis = coordinates.strip('()')

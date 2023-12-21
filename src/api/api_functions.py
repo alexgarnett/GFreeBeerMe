@@ -95,10 +95,7 @@ def get_encounters(beer_id: int):
         cursor.execute('SELECT * FROM encounters '
                        'WHERE id = %s;', (beer_id,)
                        )
-        fetch_size = cursor.arraysize
-        if fetch_size > 20:
-            fetch_size = 20
-        encounters = cursor.fetchmany(fetch_size)
+        encounters = cursor.fetchall()
         connection.close()
     except Exception as e:
         print("Exception when attempting to fetch encounters: " + str(e))
