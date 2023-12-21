@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <h1>Search results within {{ search_radius }} miles of {{ search_location }}</h1>
     {% for beer in encounters %}
         <hr>
         <a href="{{ url_for('beer_info_page', beer_id=beer['id']) }}">

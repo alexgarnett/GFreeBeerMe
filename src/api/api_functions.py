@@ -93,7 +93,8 @@ def get_encounters(beer_id: int):
     try:
         connection, cursor = connect_to_database()
         cursor.execute('SELECT * FROM encounters '
-                       'WHERE id = %s;', (beer_id,)
+                       'WHERE id = %s'
+                       'ORDER BY date_of DESC;', (beer_id,)
                        )
         encounters = cursor.fetchall()
         connection.close()
@@ -112,7 +113,8 @@ def get_all_encounters():
                        'encounters.date_of, encounters.location, '
                        'encounters.content '
                        'FROM encounters '
-                       'INNER JOIN information ON encounters.id=information.id;')
+                       'INNER JOIN information ON encounters.id=information.id '
+                       'ORDER BY date_of DESC;')
         encounters = cursor.fetchall()
         # encounters = [dict(row) for row in encounters]
         connection.close()

@@ -127,10 +127,12 @@ def locate_results():
 
         if user_location:
             center_coordinates = str_coordinates_to_float_tuple(user_location)
+            search_location = user_location
 
         else:
             geolocation = geolocator.geocode(city + ', ' + state)
             center_coordinates = (geolocation.latitude, geolocation.longitude)
+            search_location = city + ', ' + state
 
         # Call all encounters endpoint of api
         all_encounters_url = f'{API_HOST}:{API_PORT}/api/all_encounters'
@@ -171,7 +173,9 @@ def locate_results():
 
         # return filtered_encounters
         # Render template with the filtered list of encounters
-        return render_template("encounters.html", encounters=filtered_encounters)
+        return render_template("encounters.html", encounters=filtered_encounters,
+                               search_location=search_location,
+                               search_radius=search_radius)
 
 
 def str_coordinates_to_float_tuple(coordinates: str) -> tuple:
