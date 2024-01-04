@@ -2,7 +2,7 @@ name: GFreeBeerMe
 on: [push]
 
 jobs:
-  build:
+  build_application:
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
@@ -21,6 +21,9 @@ jobs:
         
     - name: Install requirements
       run: pip install -r requirements.txt
+
+    - name: Run tests
+      run: pytest
 
     - name: Stop containers
       if: always()
