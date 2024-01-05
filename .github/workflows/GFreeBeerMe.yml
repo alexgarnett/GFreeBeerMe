@@ -56,17 +56,15 @@ jobs:
       - name: Build and push api
         uses: docker/build-push-action@v5
         with:
-          path: src/api
-          context: .
-          file: ./Dockerfile
+          context: ./src/api
+          file: ./src/api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_api
 
       - name: Build and push app
         uses: docker/build-push-action@v5
         with:
-          path: src/app
-          context: .
-          file: ./Dockerfile
+          context: ./src/app
+          file: ./src/app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_app
