@@ -49,7 +49,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./src/database
-          file: ./Dockerfile
+          file: ./src/database/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_db
 
