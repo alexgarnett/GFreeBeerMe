@@ -47,8 +47,8 @@ jobs:
 
       - name: Build and push database
         uses: docker/build-push-action@v5
+        path: src/database
         with:
-          path: src/database
           context: .
           file: ./Dockerfile
           push: true
