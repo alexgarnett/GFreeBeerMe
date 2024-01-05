@@ -2,12 +2,12 @@ name: GFreeBeerMe
 on: [push]
 
 jobs:
-  build_application:
+  test_application:
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout branch
+    - name: Checkout repo
       uses: actions/checkout@v4
 
     - name: Start containers
@@ -28,3 +28,43 @@ jobs:
     - name: Stop containers
       if: always()
       run: docker-compose -f "docker-compose.yml" down
+
+  push_to_registry:
+    name: Push Docker images to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push database
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: src/database/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_db
+
+      - name: Build and push api
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: src/api/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_api
+
+      - name: Build and push app
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: src/app/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_app
