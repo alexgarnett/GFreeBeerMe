@@ -47,9 +47,8 @@ jobs:
 
       - name: Build and push database
         uses: docker/build-push-action@v5
-        path: src/database
         with:
-          context: .
+          context: src/database
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_db
