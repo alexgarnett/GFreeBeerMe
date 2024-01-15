@@ -68,3 +68,29 @@ jobs:
           file: ./src/app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/gfreebeerme:beer_app
+
+  deploy_app:
+    name: Deploy app to DigitalOcean
+    runs-on: ubuntu
+    steps:
+      - name: Enable SSH key
+        run: chmod 400 $SSH_KEY *** @todo need to set up ssh key for DigitalOcean***
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Copy compose file to remote machine
+        run: scp -i $SSH_KEY docker-compose.yml root@137.184.32.62:/root/
+
+      - name: Copy schema.sql to remote machine
+        run: scp -i $SSH_KEY ./src/database/schema.sql root@137.184.32.62:/root/src/database/
+
+      - name: Update and start containers
+        run: ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@137.184.32.62 "
+          docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+          docker compose down &&
+          docker ps -aq | xargs docker rm &&
+          docker volume rm beer_app_volume &&
+          docker compose up"
+
+
