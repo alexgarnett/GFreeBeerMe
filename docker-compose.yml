@@ -4,7 +4,7 @@ services:
 
   db:
     container_name: beer_db
-    build: ./src/database/
+    image: alexgarnett/gfreebeerme:beer_db
     ports:
       - "5433:5432"
     networks:
@@ -19,7 +19,7 @@ services:
 
   api:
     container_name: beer_api
-    build: ./src/api/
+    image: alexgarnett/gfreebeerme:beer_api
     ports:
       - "8080:8080"
     networks:
@@ -30,7 +30,7 @@ services:
 
   app:
     container_name: beer_app
-    build: ./src/app/
+    image: alexgarnett/gfreebeerme:beer_app
     ports:
       - "8000:8000"
     networks:
