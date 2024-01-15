@@ -76,20 +76,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-
-      - shell: bash
-        name: Test SSH
-        env:
-          KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i $KEY root@137.184.32.62
-
-
       - name: Update and start containers
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: 137.184.32.62
-          username: root
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          password: ${{ secrets.DROPLET_PASS }}
           script: |
             echo "SSH successful"
