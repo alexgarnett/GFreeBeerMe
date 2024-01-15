@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   test_application:
+    name: Test application
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
@@ -31,6 +32,7 @@ jobs:
 
   push_to_registry:
     name: Push Docker images to Docker Hub
+    needs: test_application
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -71,6 +73,7 @@ jobs:
 
   deploy_app:
     name: Deploy app to DigitalOcean
+    needs: test_application, push_to_registry
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
