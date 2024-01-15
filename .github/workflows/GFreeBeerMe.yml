@@ -76,9 +76,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Enable SSH key
-        run: chmod 400 ${{ secrets.SSH_KEY }}
-
       - name: Copy compose file to remote machine
         run: scp -i ${{ secrets.SSH_KEY }} docker-compose.yml root@137.184.32.62:/root/
 
