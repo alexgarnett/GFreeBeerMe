@@ -71,7 +71,7 @@ jobs:
 
   deploy_app:
     name: Deploy app to DigitalOcean
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
