@@ -76,6 +76,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Test SSH
+      - shell: bash
+        env:
+          KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i $KEY root@137.184.32.62
+
 
       - name: Update and start containers
         uses: appleboy/ssh-action@v1.0.3
