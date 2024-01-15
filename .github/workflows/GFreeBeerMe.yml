@@ -103,11 +103,8 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          env:
-            USER: ${{ secrets.DOCKER_USER }}
-            PASS: ${{ secrets.DOCKER_PASS }}
           script: |
-            docker login -u $USER -p PASS &&
+            docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }} &&
             docker compose down &&
             docker ps -aq | xargs docker rm &&
             docker volume rm beer_app_volume &&
