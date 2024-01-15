@@ -1,13 +1,13 @@
-# This is the compose file that will attempt to fetch container images
-# from docker hub before running the containers. It is used on the server
-# to quickly deploy the webapp. For the compose file that builds the
-# containers and uses the new builds, use docker-compose-build.yml
+# This is the compose file that builds the containers from the Dockerfiles.
+# This file is used for testing, as it incorporates any changes that
+# may have been made. For the file that pulls from the registry,
+# use docker-compose.yml
 
 services:
 
   db:
     container_name: beer_db
-    image: alexgarnett/gfreebeerme:beer_db
+    build: ./src/database
     ports:
       - "5433:5432"
     networks:
@@ -22,7 +22,7 @@ services:
 
   api:
     container_name: beer_api
-    image: alexgarnett/gfreebeerme:beer_api
+    build: ./src/api
     ports:
       - "8080:8080"
     networks:
@@ -33,7 +33,7 @@ services:
 
   app:
     container_name: beer_app
-    image: alexgarnett/gfreebeerme:beer_app
+    build: ./src/app
     ports:
       - "80:8000"
     networks:
