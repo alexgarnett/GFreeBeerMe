@@ -76,8 +76,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Test SSH
+
       - shell: bash
+        name: Test SSH
         env:
           KEY: ${{ secrets.SSH_KEY }}
         run: |
