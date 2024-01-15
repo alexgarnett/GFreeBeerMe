@@ -94,7 +94,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           source: ./src/database/schema.sql
-          target: /root/src/database/schema.sql
+          target: /root/src/database/
 
       - name: Update and start containers
         uses: appleboy/ssh-action@v1.0.3
