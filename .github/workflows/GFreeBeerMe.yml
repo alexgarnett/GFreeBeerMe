@@ -81,6 +81,7 @@ jobs:
         with:
           host: ${{ secrets.DROPLET_HOST }}
           username: ${{ secrets.DROPLET_USER }}
-          password: ${{ secrets.DROPLET_PASS }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
           script: |
             echo "SSH successful"
