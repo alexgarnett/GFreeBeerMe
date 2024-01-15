@@ -106,6 +106,6 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }} &&
             docker compose down &&
-            docker ps -aq | xargs docker rm &&
+            docker rm beer_db beer_api beer_app &&
             docker volume rm beer_app_volume &&
             docker compose up
