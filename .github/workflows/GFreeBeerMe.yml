@@ -86,11 +86,13 @@ jobs:
         run: scp -i $SSH_KEY ./src/database/schema.sql root@137.184.32.62:/root/src/database/
 
       - name: Update and start containers
-        run: ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@137.184.32.62 "
-          docker login -u $DOCKER_USER -p $DOCKER_PASS &&
-          docker compose down &&
-          docker ps -aq | xargs docker rm &&
-          docker volume rm beer_app_volume &&
-          docker compose up"
-
-
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 137.184.32.62
+          username: root
+          key: $SSH_KEY
+          script: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+                  docker compose down &&
+                  docker ps -aq | xargs docker rm &&
+                  docker volume rm beer_app_volume &&
+                  docker compose up
