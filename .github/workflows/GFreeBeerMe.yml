@@ -73,7 +73,7 @@ jobs:
 
   deploy_app:
     name: Deploy app to DigitalOcean
-    needs: test_application, push_to_registry
+    needs: [test_application, push_to_registry]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
