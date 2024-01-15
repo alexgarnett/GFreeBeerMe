@@ -107,4 +107,4 @@ jobs:
             docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }} &&
             docker compose down &&
             docker volume rm beer_app_volume &&
-            docker compose up
+            docker compose up --detach
