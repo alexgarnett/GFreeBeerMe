@@ -78,8 +78,8 @@ jobs:
 
       - name: Copy compose file to remote machine
         run: scp -i $SSH_KEY docker-compose.yml root@137.184.32.62:/root/
-        with:
-          - SSH_KEY: ${{secrets.SSH_KEY}}
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
 
       - name: Copy schema.sql to remote machine
         run: scp -i ${{ secrets.SSH_KEY }} ./src/database/schema.sql root@137.184.32.62:/root/src/database/
