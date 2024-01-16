@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <img src="../static/images/{{ beer_info['name'] }}.png" alt="{{ beer_info['name'] }}" style="float:right;max-width:300px;max-height:300px;">
+    <img src="../static/images/{{ beer_info['name'] }} {{ beer_info['manufacturer'] }}.png" alt="{{ beer_info['name'] }}" style="float:right;max-width:300px;max-height:300px;">
     <h2>{% block title %} {{ beer_info['name'] }} {% endblock %}</h2>
     <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ beer_info['manufacturer'] }}</span>
     <p>

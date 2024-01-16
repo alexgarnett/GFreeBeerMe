@@ -3,7 +3,7 @@
 {% block content %}
     {% for beer_info in all_beers %}
         <hr>
-        <img src="../static/images/{{ beer_info['name'] }}.png" alt="{{ beer_info['name'] }}" style="float:inline-end;max-width:120px;max-height:120px;">
+        <img src="../static/images/{{ beer_info['name'] }} {{ beer_info['manufacturer'] }}.png" alt="{{ beer_info['name'] }}" style="float:inline-end;max-width:120px;max-height:120px;">
         <a href="{{ url_for('beer_info_page', beer_id=beer_info['id']) }}">
             <h2>{{ beer_info['name'] }}</h2>
         </a>
