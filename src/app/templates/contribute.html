@@ -8,9 +8,9 @@
     </p>
     <form action="{{ url_for('submit_contribution') }}" method="post" style="color:white;font-size:32px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
         <label for="name">Beer name:</label><br>
-        <input type="text" id="name" name="name" placeholder="Redbridge"><br><br>
+        <input type="text" id="name" name="name" placeholder="Redbridge" required><br><br>
         <label for="manufacturer">Beer manufacturer:</label><br>
-        <input type="text" id="manufacturer" name="manufacturer" placeholder="Anheuser-Busch"><br><br>
+        <input type="text" id="manufacturer" name="manufacturer" placeholder="Anheuser-Busch" required><br><br>
         <label for="city">City manufactured in:</label><br>
         <input type="text" id="city" name="city" placeholder="St. Louis"><br><br>
         <label for="state">State manufactured in:</label><br>
@@ -19,7 +19,7 @@
         <input type="text" id="country" name="country" placeholder="United States"><br><br>
 
         <label for="availability">Availability:</label><br>
-        <input type="radio" id="local" name="availability" value="Local">
+        <input type="radio" id="local" name="availability" value="Local" required>
         <label for="local">Local &emsp;</label>
         <input type="radio" id="regional" name="availability" value="Regional">
         <label for="regional">Regional &emsp;</label>
@@ -27,11 +27,11 @@
         <label for="national">National &emsp;</label>
         <input type="radio" id="global" name="availability" value="Global">
         <label for="global">Global &emsp;</label>
-        <input type="radio" id="availability_unknown" name="availability" value="unknown">
+        <input type="radio" id="availability_unknown" name="availability" value="Unknown">
         <label for="availability_unknown">Unknown &emsp;</label><br><br>
 
         <label for="gf_or_gr">Gluten content:</label><br>
-        <input type="radio" id="gf" name="gf_or_gr" value="Gluten free">
+        <input type="radio" id="gf" name="gf_or_gr" value="Gluten Free" required>
         <label for="gf">Gluten free &emsp;</label>
         <input type="radio" id="gr" name="gf_or_gr" value="Gluten Reduced">
         <label for="gr">Gluten reduced &emsp;</label>

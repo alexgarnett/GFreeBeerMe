@@ -63,11 +63,12 @@ def add_beer_to_db(beer: dict):
         cursor = connection.cursor()
         cursor.execute("SELECT id FROM information ORDER BY id DESC LIMIT 1")
         old_id = cursor.fetchone()[0]
+        beer_id = old_id + 1
 
-        sql = "INSERT INTO information(name, manufacturer, " \
+        sql = "INSERT INTO information(id, name, manufacturer, " \
               "city, state, country, availability, gf_or_gr) " \
-              "VALUES(%s, %s, %s, %s, %s, %s, %s);"
-        cursor.execute(sql, (beer['name'], beer['manufacturer'],
+              "VALUES(%s, %s, %s, %s, %s, %s, %s, %s);"
+        cursor.execute(sql, (beer_id, beer['name'], beer['manufacturer'],
                              beer['city'], beer['state'], beer['country'],
                              beer['availability'], beer['gf_or_gr'],))
         connection.commit()

@@ -72,12 +72,12 @@ def submit_contribution():
     if request.method == 'POST':
         name = request.form.get('name')
         manufacturer = request.form.get('manufacturer')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        country = request.form.get('country')
-        availability = request.form.get('availability')
-        gf_or_gr = request.form.get('gf_or_gr')
-        comments = request.form.get('comments')
+        city = request.form.get('city', '')     # Adding default '' to avoid Nonetype errors
+        state = request.form.get('state', '')
+        country = request.form.get('country', '')
+        availability = request.form.get('availability', 'Unknown')
+        gf_or_gr = request.form.get('gf_or_gr', 'Unknown')
+        comments = request.form.get('comments', '')
         email = request.form.get('email')
 
         beer_dict = {
@@ -89,6 +89,12 @@ def submit_contribution():
             'availability': availability,
             'gf_or_gr': gf_or_gr
         }
+
+        # None types will cause errors
+        for key, val in beer_dict.items():
+            if val is None:
+                beer_dict[key] = ""
+
         response = requests.post(request_url, json=beer_dict)
 
         # msg_to_creator = Message("Submission from BeerApp received", sender=email,
