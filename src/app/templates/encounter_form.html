@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      <script>
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(updatePosition);
+          } else {
+            document.getElementById("user_location").value = "error";
+          }
+        }
+
+        function updatePosition(position) {
+          document.getElementById("user_location").value = "(" + position.coords.latitude +
+          ", " + position.coords.longitude + ")";
+        }
+    </script>
+    <h1>Submit an encounter</h1>
+    <form action="{{ url_for('submit_encounter')  }}" method="post" style="color:white;font-size:32px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+        <label for="name">Beer name:</label><br>
+        <input type="text" id="name" name="name" placeholder="Redbridge" style="font-size:24px;" required><br>
+        <label for="manufacturer">Beer manufacturer:</label><br>
+        <input type="text" id="manufacturer" name="manufacturer" placeholder="Anheuser-Busch" style="font-size:24px;" required><br>
+        <label for="date_of">Date encountered:</label>
+        <br>
+        <input type="date" id="date_of" name="date_of" style="font-size:24px;" required>
+
+        <br>Location:<br>
+        <label for="user_location_checkbox" style="font-size:24px;">Use My Location</label>
+        <input type="checkbox" id="user_location_checkbox" onclick="getLocation()" style="height:20px;width:20px;vertical-align:middle;">
+        <input type="hidden" id="user_location" name="user_location">
+        <br>Or enter address<br>
+        <label for="address" style="font-size:24px;">Address:</label>
+        <input type="text" id="address" name="address" placeholder="123 ABC St, Boynton Beach, Florida" size="50" style="font-size:24px;">
+        <br>
+
+        <label for="content">Description of encounter:</label>
+        <textarea id="content" name="content" rows="4" cols="80" maxlength="1023" style="font-size:24px;"></textarea>
+        <p style="font-size:24px;">In the box above, please describe where you found this beer, i.e, name of restaurant,
+            grocery store, etc., and any other relevant info such as whether it is always
+            available, does it come in cans or bottles, and so on.</p>
+
+        <input type="submit" value="Submit" style="background-color:black;color:white;border-radius:6px;font-size:20px;">
+
+    </form><br><br>
+{% endblock %}

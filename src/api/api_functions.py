@@ -90,6 +90,28 @@ def add_beer_to_db(beer: dict):
     return response
 
 
+def add_encounter_to_db(encounter: dict):
+    response = flask.make_response()
+    try:
+        connection, cursor, = connect_to_database()
+        cursor = connection.cursor()
+        sql = "INSERT INTO encounters (id, date_of, location, " \
+              "address, content) " \
+              "VALUES (%s, %s, %s, %s, %s);"
+        cursor.execute(sql, (encounter['id'], encounter['date_of'],
+                             encounter['location'], encounter['address'],
+                             encounter['content']))
+        connection.commit()
+        connection.close()
+        response.status_code = 201
+        response.reason = f"Successfully added encounter to database {encounter['content'][:10]}"
+    except Exception as e:
+        response.status_code = 400
+        response.reason = f"Error adding encounter to data base. {e}"
+
+    return response
+
+
 def get_encounters(beer_id: int):
     try:
         connection, cursor = connect_to_database()

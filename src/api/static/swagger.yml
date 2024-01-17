@@ -95,8 +95,8 @@ paths:
   /api/contribute:
     post:
       tags:
-        - "Contribute"
-      summary: "Test the contribute endpoint"
+        - "Beers"
+      summary: "Test the contribute beer endpoint"
       requestBody:
         description: "Adds a new beer to the database"
         required: true
@@ -124,3 +124,36 @@ paths:
         responses:
           '201':
             description: "Created a new beer in the DB"
+
+  /api/contribute_encounter:
+    post:
+      tags:
+        - "Encounters"
+      summary: "Test the contribute encounter endpoint"
+      requestBody:
+        description: "Adds a new encounter to the database"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - date_of
+                - location
+                - content
+              properties:
+                id:
+                  type: integer
+                date_of:
+                  type: string
+                location:
+                  type: string
+                address:
+                  type: string
+                content:
+                  type: string
+        responses:
+          '201':
+            description: "Created new encounter in the DB"
+
