@@ -157,3 +157,25 @@ paths:
           '201':
             description: "Created new encounter in the DB"
 
+  /api/search:
+    get:
+      tags:
+        - "Beers"
+      summary: "Test the search database endpoint"
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+          description: Name of beer to search for
+        - in: query
+          name: manufacturer
+          schema:
+            type: string
+          required: false
+          description: Name of brewer to search for
+      responses:
+        "200":
+          description: Search successful, see results
+
