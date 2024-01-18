@@ -150,16 +150,16 @@ def get_all_encounters():
 def search_db(name: str, manufacturer: str):
     try:
         connection, cursor = connect_to_database()
-        if name is not '' and manufacturer is not '':
+        if name != '' and manufacturer != '':
             # search by both
             sql = f"SELECT * FROM information " \
                   f"WHERE name ILIKE '%{name}%' " \
                   f"AND manufacturer ILIKE '%{manufacturer}%';"
-        elif name is not '':
+        elif name != '':
             # search by name
             sql = f"SELECT * FROM information " \
                   f"WHERE name ILIKE '%{name}%';"
-        elif manufacturer is not '':
+        elif manufacturer != '':
             # search by manufacturer
             sql = f"SELECT * FROM information " \
                   f"WHERE manufacturer ILIKE '%{manufacturer}%';"

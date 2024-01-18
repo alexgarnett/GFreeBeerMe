@@ -138,7 +138,7 @@ def submit_encounter():
         content = request.form.get('content', '')
 
         # If we did not get user coordinates, attempt to find them from Geolocator
-        if user_location is '':
+        if user_location == '':
             geolocator = Nominatim(user_agent="beer_app")
             geolocation = geolocator.geocode(address)
             if geolocation is None:
