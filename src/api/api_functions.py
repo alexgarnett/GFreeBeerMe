@@ -60,6 +60,7 @@ def get_all_beer_info():
 def add_beer_to_db(beer: dict):
     try:
         connection, cursor, = connect_to_database()
+        cursor = connection.cursor()
         cursor.execute("SELECT id FROM information ORDER BY id DESC LIMIT 1")
         old_id = cursor.fetchone()[0]
         beer_id = old_id + 1
