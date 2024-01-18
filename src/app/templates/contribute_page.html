@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Want to share with us?</h1>
+    <p style="text-align:center;">
+        Do you know of a GF/GR beer that we don't have in our database? Have you encountered one recently?
+        Please select one of the two forms below to spread your knowledge and help people like us access more beer!
+    </p>
+    <br>
+    <div class="button-container" style="display:flex;margin:auto;width:50%;">
+        <form action="{{ url_for('contribute_beer_page') }}">
+            <input type="submit" value="Submit a beer" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
+        </form>
+        &emsp;&emsp;
+        <form action="{{ url_for('contribute_encounter_page') }}">
+            <input type="submit" value="Submit encounter" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
+        </form>
+    </div>
+
+{% endblock %}

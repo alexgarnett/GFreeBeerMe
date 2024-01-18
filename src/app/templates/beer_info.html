@@ -10,7 +10,12 @@
         Availability: {{ beer_info['availability'] }}
         <br>
         Gluten content: {{ beer_info['gf_or_gr'] }}
+        <br>
+        <a href="{{ url_for('contribute_encounter_with_id', beer_id=beer_info['id']) }}">
+            Submit an encounter for {{ beer_info['name'] }}
+        </a>
     </p>
+
     <section id="encounters-section">
         <h3>Encounters</h3>
         <div class="white-box">

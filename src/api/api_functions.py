@@ -60,7 +60,6 @@ def get_all_beer_info():
 def add_beer_to_db(beer: dict):
     try:
         connection, cursor, = connect_to_database()
-        cursor = connection.cursor()
         cursor.execute("SELECT id FROM information ORDER BY id DESC LIMIT 1")
         old_id = cursor.fetchone()[0]
         beer_id = old_id + 1
@@ -86,6 +85,27 @@ def add_beer_to_db(beer: dict):
     else:
         response.status_code = 400
         response.reason = f"Error creating {beer['name']}"
+
+    return response
+
+
+def add_encounter_to_db(encounter: dict):
+    response = flask.make_response()
+    try:
+        connection, cursor, = connect_to_database()
+        sql = "INSERT INTO encounters (id, date_of, location, " \
+              "address, content) " \
+              "VALUES (%s, %s, %s, %s, %s);"
+        cursor.execute(sql, (encounter['id'], encounter['date_of'],
+                             encounter['location'], encounter['address'],
+                             encounter['content']))
+        connection.commit()
+        connection.close()
+        response.status_code = 201
+        response.reason = f"Successfully added encounter to database {encounter['content'][:10]}"
+    except Exception as e:
+        response.status_code = 400
+        response.reason = f"Error adding encounter to data base. {e}"
 
     return response
 
@@ -125,3 +145,34 @@ def get_all_encounters():
         encounters = None
 
     return encounters
+
+
+def search_db(name: str, manufacturer: str):
+    try:
+        connection, cursor = connect_to_database()
+        if name != '' and manufacturer != '':
+            # search by both
+            sql = f"SELECT * FROM information " \
+                  f"WHERE name ILIKE '%{name}%' " \
+                  f"AND manufacturer ILIKE '%{manufacturer}%';"
+        elif name != '':
+            # search by name
+            sql = f"SELECT * FROM information " \
+                  f"WHERE name ILIKE '%{name}%';"
+        elif manufacturer != '':
+            # search by manufacturer
+            sql = f"SELECT * FROM information " \
+                  f"WHERE manufacturer ILIKE '%{manufacturer}%';"
+        else:
+            # if both are empty, return no results
+            return []
+
+        cursor.execute(sql)
+        beers = cursor.fetchall()
+        connection.close()
+
+    except Exception as e:
+        print("Exception when attempting to fetch encounters: " + str(e))
+        beers = []
+
+    return beers

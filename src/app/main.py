@@ -61,12 +61,61 @@ def beer_info_page(beer_id: int):
     return render_template('beer_info.html', beer_info=beer_info, encounters=encounters)
 
 
+@app.route('/beers/<int:beer_id>/new_encounter')
+def contribute_encounter_with_id(beer_id: int):
+    return render_template('encounter_form_with_id.html', beer_id=beer_id)
+
+
+@app.route('/beers/<int:beer_id>/new_encounter/submit', methods=['POST'])
+def submit_encounter_with_id(beer_id: int):
+    post_url = f'{API_HOST}:{API_PORT}/api/contribute_encounter'
+    if request.method == 'POST':
+        date_of = request.form.get('date_of')
+        user_location = request.form.get('user_location', '')
+        address = request.form.get('address', '')
+        content = request.form.get('content', '')
+
+        # If we did not get user coordinates, attempt to find them from Geolocator
+        if user_location == '':
+            geolocator = Nominatim(user_agent="beer_app")
+            geolocation = geolocator.geocode(address)
+            if geolocation is None:
+                return "Unable to find a location with that address, please try again"
+            else:
+                user_location = str((geolocation.latitude, geolocation.longitude))
+
+        encounter_dict = {
+            'id': beer_id,
+            'date_of': date_of,
+            'location': user_location,
+            'address': address,
+            'content': content
+        }
+
+        response = requests.post(post_url, json=encounter_dict)
+
+        if response.status_code == 201:
+            return render_template("contribution_processed.html")
+        else:
+            abort(401)
+
+
 @app.route('/contribute')
 def contribute_page():
-    return render_template('contribute.html')
+    return render_template('contribute_page.html')
 
 
-@app.route('/contribute/submit', methods=['POST'])
+@app.route('/contribute/beer')
+def contribute_beer_page():
+    return render_template('beer_form.html')
+
+
+@app.route('/contribute/encounter')
+def contribute_encounter_page():
+    return render_template('encounter_form.html')
+
+
+@app.route('/contribute/beer/submit', methods=['POST'])
 def submit_contribution():
     request_url = f'{API_HOST}:{API_PORT}/api/contribute'
     if request.method == 'POST':
@@ -109,6 +158,52 @@ def submit_contribution():
         #
         # mail.send(msg_to_creator)
         # mail.send(msg_to_contributor)
+
+        if response.status_code == 201:
+            return render_template("contribution_processed.html")
+        else:
+            abort(401)
+
+
+@app.route('/contribute/encounter/submit', methods=['POST'])
+def submit_encounter():
+    post_url = f'{API_HOST}:{API_PORT}/api/contribute_encounter'
+    if request.method == 'POST':
+        name = request.form.get('name')
+        manufacturer = request.form.get('manufacturer')
+        date_of = request.form.get('date_of')
+        user_location = request.form.get('user_location', '')
+        address = request.form.get('address', '')
+        content = request.form.get('content', '')
+
+        # If we did not get user coordinates, attempt to find them from Geolocator
+        if user_location == '':
+            geolocator = Nominatim(user_agent="beer_app")
+            geolocation = geolocator.geocode(address)
+            if geolocation is None:
+                return "Unable to find a location with that address, please try again"
+            else:
+                user_location = str((geolocation.latitude, geolocation.longitude))
+
+        # Search database for beer with same name and manufacturer
+        search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
+        result = requests.get(search_url).json()
+        if len(result) == 0:
+            return "Unable to find a beer in our database with that name and manufacturer. Please " \
+                   "first submit a new beer entry, then resubmit your encounter"
+
+        matching_beer = result[0]
+        beer_id = matching_beer['id']
+
+        encounter_dict = {
+            'id': beer_id,
+            'date_of': date_of,
+            'location': user_location,
+            'address': address,
+            'content': content
+        }
+
+        response = requests.post(post_url, json=encounter_dict)
 
         if response.status_code == 201:
             return render_template("contribution_processed.html")

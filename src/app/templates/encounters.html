@@ -4,6 +4,7 @@
     <h1>Search results within {{ search_radius }} miles of {{ search_location }}</h1>
     {% for beer in encounters %}
         <hr>
+        <img src="../static/images/{{ beer['name'] }} {{ beer['manufacturer'] }}.png" alt="{{ beer['name'] }}" style="float:inline-end;max-width:120px;max-height:120px;">
         <a href="{{ url_for('beer_info_page', beer_id=beer['id']) }}">
             <h2>{{ beer['name'] }}</h2>
         </a>
