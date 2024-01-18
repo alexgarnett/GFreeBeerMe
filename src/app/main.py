@@ -63,7 +63,7 @@ def beer_info_page(beer_id: int):
 
 @app.route('/contribute')
 def contribute_page():
-    return render_template('contribute.html')
+    return render_template('contribute_page.html')
 
 
 @app.route('/contribute/beer')
@@ -133,12 +133,12 @@ def submit_encounter():
         name = request.form.get('name')
         manufacturer = request.form.get('manufacturer')
         date_of = request.form.get('date_of')
-        user_location = request.form.get('user_location')
+        user_location = request.form.get('user_location', '')
         address = request.form.get('address', '')
         content = request.form.get('content', '')
 
         # If we did not get user coordinates, attempt to find them from Geolocator
-        if user_location is None:
+        if user_location is '':
             geolocator = Nominatim(user_agent="beer_app")
             geolocation = geolocator.geocode(address)
             if geolocation is None:
@@ -146,16 +146,15 @@ def submit_encounter():
             else:
                 user_location = str((geolocation.latitude, geolocation.longitude))
 
-        # # Search database for beer with same name and manufacturer
-        # # todo: create api method for searching
-        # search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
-        # result = requests.get(search_url).json()
-        # if len(result) == 0:
-        #     return "Unable to find a beer in our database with that name and manufacturer. Please " \
-        #            "first submit a new beer entry, then resubmit your encounter"
-        #
-        # matching_beer = result[0]
-        beer_id = 3# beer_id = matching_beer['id']
+        # Search database for beer with same name and manufacturer
+        search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
+        result = requests.get(search_url).json()
+        if len(result) == 0:
+            return "Unable to find a beer in our database with that name and manufacturer. Please " \
+                   "first submit a new beer entry, then resubmit your encounter"
+
+        matching_beer = result[0]
+        beer_id = matching_beer['id']
 
         encounter_dict = {
             'id': beer_id,
@@ -164,7 +163,7 @@ def submit_encounter():
             'address': address,
             'content': content
         }
-
+        print(encounter_dict)
         response = requests.post(post_url, json=encounter_dict)
 
         if response.status_code == 201:

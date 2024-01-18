@@ -66,6 +66,13 @@ def contribute_encounter():
         return response
 
 
+@api.route(SWAGGER_URL + "/search", methods=['GET'])
+def search():
+    name = request.args.get('name')
+    manufacturer = request.args.get('manufacturer')
+    return search_db(name, manufacturer)
+
+
 def start_api():
     api.run(host="0.0.0.0", port=8080, debug=True)
 
