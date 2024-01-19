@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <h1>Submit a beer</h1>
     <form action="{{ url_for('submit_contribution') }}" method="post" style="color:white;font-size:32px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
         <label for="name">Beer name:</label><br>
@@ -41,6 +42,8 @@
         <label for="email">Enter your email so we can thank you for your contribution</label><br>
         <input type="email" id="email" name="email" placeholder="BeerLover@gmail.com"><br><br>
 
+        <div class="g-recaptcha" data-sitekey="6Le_hVYpAAAAAO_1Rmt4UsxFSSdG0WR7Y36R7s7Q"></div>
+        <br>
         <input type="submit" value="Submit" style="background-color:black;color:white;border-radius:6px;font-size:20px;">
 
     </form><br><br>
