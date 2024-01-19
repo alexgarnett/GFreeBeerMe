@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search for a beer</h1>
+    <form action="{{ url_for('search_results') }}" method="post" style="color:white;font-size:32px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+        <label for="name">Beer name:</label><br>
+        <input type="text" id="name" name="name" placeholder="Redbridge" required><br><br>
+        <label for="manufacturer">Beer manufacturer:</label><br>
+        <input type="text" id="manufacturer" name="manufacturer" placeholder="Anheuser-Busch" required><br><br>
+        <input type="submit" value="Submit" style="background-color:black;color:white;border-radius:6px;font-size:20px;">
+    </form>
+{% endblock %}

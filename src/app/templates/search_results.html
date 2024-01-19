@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    {% for beer in beers %}
+        <hr>
+        <img src="../static/images/{{ beer['name'] }} {{ beer['manufacturer'] }}.png" alt="{{ beer['name'] }}" style="float:inline-end;max-width:120px;max-height:120px;">
+        <a href="{{ url_for('beer_info_page', beer_id=beer['id']) }}">
+            <h2>{{ beer['name'] }}</h2>
+        </a>
+        <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ beer['manufacturer'] }}</span>
+    {% endfor %}
+{% endblock %}
