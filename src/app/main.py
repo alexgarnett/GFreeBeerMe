@@ -80,7 +80,8 @@ def submit_encounter_with_id(beer_id: int):
             geolocator = Nominatim(user_agent="beer_app")
             geolocation = geolocator.geocode(address)
             if geolocation is None:
-                return "Unable to find a location with that address, please try again"
+                error_message = "Unable to find a location with that address, please try again"
+                return render_template('generic_message.html', message=error_message)
             else:
                 user_location = str((geolocation.latitude, geolocation.longitude))
 
@@ -181,7 +182,8 @@ def submit_encounter():
             geolocator = Nominatim(user_agent="beer_app")
             geolocation = geolocator.geocode(address)
             if geolocation is None:
-                return "Unable to find a location with that address, please try again"
+                error_message = "Unable to find a location with that address, please try again"
+                return render_template('generic_message.html', message=error_message)
             else:
                 user_location = str((geolocation.latitude, geolocation.longitude))
 
@@ -189,8 +191,9 @@ def submit_encounter():
         search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
         result = requests.get(search_url).json()
         if len(result) == 0:
-            return "Unable to find a beer in our database with that name and manufacturer. Please " \
-                   "first submit a new beer entry, then resubmit your encounter"
+            error_message = "Unable to find a beer in our database with that name and manufacturer. Please " \
+                            "first submit a new beer entry, then resubmit your encounter"
+            return render_template('generic_message.html', message=error_message)
 
         matching_beer = result[0]
         beer_id = matching_beer['id']
@@ -293,10 +296,11 @@ def search_results():
         search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
         result = requests.get(search_url).json()
         if len(result) == 0:
-            return "Unable to find a beer in our database with that name and manufacturer. Please " \
-                   "first submit a new beer entry, then resubmit your encounter"
-
-        return render_template('search_results.html', beers=result)
+            error_message = "Unable to find a beer in our database with that name and manufacturer. Please " \
+                            "first submit a new beer entry, then resubmit your encounter"
+            return render_template('generic_message.html', message=error_message)
+        else:
+            return render_template('search_results.html', beers=result)
 
 
 def str_coordinates_to_float_tuple(coordinates: str) -> tuple:
