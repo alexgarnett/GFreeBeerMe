@@ -272,11 +272,31 @@ def locate_results():
                                          'encounters': [encounter]}
                             filtered_encounters.append(new_entry)
 
-        # return filtered_encounters
         # Render template with the filtered list of encounters
         return render_template("encounters.html", encounters=filtered_encounters,
                                search_location=search_location,
                                search_radius=search_radius)
+
+
+@app.route('/search')
+def search_page():
+    return render_template('search_page.html')
+
+
+@app.route('/search/results', methods=['POST'])
+def search_results():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        manufacturer = request.form.get('manufacturer')
+
+        # Search database for beer with same name and manufacturer
+        search_url = f'{API_HOST}:{API_PORT}/api/search?name={name}&manufacturer={manufacturer}'
+        result = requests.get(search_url).json()
+        if len(result) == 0:
+            return "Unable to find a beer in our database with that name and manufacturer. Please " \
+                   "first submit a new beer entry, then resubmit your encounter"
+
+        return render_template('search_results.html', beers=result)
 
 
 def str_coordinates_to_float_tuple(coordinates: str) -> tuple:
