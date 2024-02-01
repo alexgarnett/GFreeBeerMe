@@ -1,37 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <img src="../static/images/{{ beer_info['name'] }} {{ beer_info['manufacturer'] }}.png" alt="{{ beer_info['name'] }}" style="float:right;max-width:300px;max-height:300px;">
-    <h2>{% block title %} {{ beer_info['name'] }} {% endblock %}</h2>
-    <span class="badge badge-primary" style="min-width:150px;min-height:40px;font-size:24px;">{{ beer_info['manufacturer'] }}</span>
-    <p>
-        From: {{ beer_info['city'] }}, {{ beer_info['state'] }}, {{ beer_info['country'] }}
-        <br>
-        Availability: {{ beer_info['availability'] }}
-        <br>
-        Gluten content: {{ beer_info['gf_or_gr'] }}
-        <br>
-        <a href="{{ url_for('contribute_encounter_with_id', beer_id=beer_info['id']) }}">
-            Submit an encounter for {{ beer_info['name'] }}
-        </a>
-    </p>
-
+    <div class="container" style="padding:0px;">
+        <div class="row">
+            <div class="col-9">
+                <h2>{% block title %} {{ beer_info['name'] }} {% endblock %}</h2>
+                <p2>
+                    Manufacturer: {{ beer_info['manufacturer'] }}
+                    <br>
+                    From: {{ beer_info['city'] }}, {{ beer_info['state'] }}, {{ beer_info['country'] }}
+                    <br>
+                    Availability: {{ beer_info['availability'] }}
+                    <br>
+                    Gluten content: {{ beer_info['gf_or_gr'] }}
+                    <br>
+                    <a href="{{ url_for('contribute_encounter_with_id', beer_id=beer_info['id']) }}">
+                        Submit an encounter for {{ beer_info['name'] }}
+                    </a>
+                </p2>
+            </div>
+            <div class="col-3">
+                <img src="../static/images/{{ beer_info['name'] }} {{ beer_info['manufacturer'] }}.png" alt="{{ beer_info['name'] }}" style="float:right;max-width:20vw;max-height:30vw;">
+            </div>
+        </div>
+    </div>
+    <br>
     <section id="encounters-section">
         <h3>Encounters</h3>
-        <div class="white-box">
-            {% for encounter in encounters %}
-                <p style="padding:5px 20px 5px 20px;">
-                    Date: {{ encounter['date_of'] }}
-                    <br>
-                    Address: {{ encounter['address'] }}
-                    <br>
-                    GPS: {{ encounter['location'] }}
-                    <br>
-                    Description: <br> {{ encounter['content'] }}
-                </p>
-                <hr>
-            {% endfor %}
-        </div>
+        {% for encounter in encounters %}
+            <p style="padding:5px 20px 5px 20px;">
+                Date: {{ encounter['date_of'] }}
+                <br>
+                Address: {{ encounter['address'] }}
+                <br>
+                GPS: {{ encounter['location'] }}
+                <br>
+                Description: <br> {{ encounter['content'] }}
+            </p>
+            <hr>
+        {% endfor %}
     </section>
 
 {% endblock %}

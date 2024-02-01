@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Search for a beer</h1>
+    <h2>Search for a beer</h2>
+    <br>
     <form action="{{ url_for('search_results') }}" method="post" style="color:white;font-size:32px;text-shadow:-1px 1px 0 #000,1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
         <label for="name">Beer name:</label><br>
         <input type="text" id="name" name="name" placeholder="Redbridge" required><br><br>

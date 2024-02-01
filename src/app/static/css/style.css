@@ -36,6 +36,15 @@ p {
                  -1px -1px 0 #000;
 }
 
+p2 {
+    color: white;
+    font-size: 32px;
+    text-shadow: -1px 1px 0 #000,
+                 1px 1px 0 #000,
+                 1px -1px 0 #000,
+                 -1px -1px 0 #000;
+}
+
 input[type=radio] {
     height:20px;
     width:20px;
@@ -49,7 +58,7 @@ input[type=radio] {
 }
 
 .white-background {
-    background: rgba(255, 255, 255, 1.0);
+    background: rgba(255, 255, 255, 0.9);
     color: black;
     margin: auto;
     padding-top: 25px;
@@ -58,10 +67,25 @@ input[type=radio] {
     padding-bottom: 25px;
 }
 
-@media (min-width: 768px)
+@media (max-width: 1180px)
  {
-    h1
-    {
+    h1 {
         font-size: 64px;
+    }
+
+    h2 {
+        font-size: 48px;
+    }
+
+    h3 {
+        font-size: 40px;
+    }
+
+    p {
+        font-size: 24px;
+    }
+
+    p2 {
+        font-size: 20px;
     }
  }
