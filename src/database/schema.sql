@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS encounters;
 
 CREATE TABLE information (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
     manufacturer TEXT,
     city TEXT,
     state TEXT,
@@ -26,7 +26,7 @@ VALUES (1, 'Redbridge', 'Anheuser-Busch', 'St. Louis', 'Missouri', 'United State
     (8, 'A10 Hop-Hog', 'Copperpoint', 'Boynton Beach', 'Florida', 'United States', 'Local', 'GR'),
     (9, 'B. Rabbit Espresso Cream Stout', 'Copperpoint', 'Boynton Beach', 'Florida', 'United States', 'Local', 'GR'),
     (10, 'Copperpoint Witness', 'Copperpoint', 'Boynton Beach', 'Florida', 'United States', 'Local', 'GR'),
-    (11, 'Copperpoint Blood Orange Wit', 'Copperpoint', 'Boynton Beach', 'Florida', 'United States', 'Local', 'GR')
+    (11, 'Copperpoint Blood Orange Wit', 'Copperpoint', 'Boynton Beach', 'Florida', 'United States', 'Local', 'GR'),
     (12, 'Blonde', 'Glutenberg', 'Montreal', 'Quebec', 'Canada', 'Global', 'GF'),
     (13, 'IPA', 'Glutenberg', 'Montreal', 'Quebec', 'Canada', 'Global', 'GF'),
     (14, 'Pale Ale', 'Glutenberg', 'Montreal', 'Quebec', 'Canada', 'Global', 'GF'),
