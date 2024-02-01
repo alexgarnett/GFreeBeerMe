@@ -7,14 +7,22 @@
         Please select one of the two forms below to spread your knowledge and help people like us access more beer!
     </p>
     <br>
-    <div class="button-container" style="display:flex;margin:auto;width:50%;">
-        <form action="{{ url_for('contribute_beer_page') }}">
-            <input type="submit" value="Submit a beer" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
-        </form>
-        &emsp;&emsp;
-        <form action="{{ url_for('contribute_encounter_page') }}">
-            <input type="submit" value="Submit encounter" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-5" style="margin:auto;display:flex;align-items:center;justify-content:center;">
+                <form action="{{ url_for('contribute_beer_page') }}">
+                    <input type="submit" value="Submit a beer" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
+                </form>
+            </div>
+            <div class="col-lg-5" style="margin:auto;display:flex;align-items:center;justify-content:center;">
+                <form action="{{ url_for('contribute_encounter_page') }}">
+                    <input type="submit" value="Submit encounter" style="background-color:black;color:white;border-radius:6px;font-size:40px;"/>
+                </form>
+            </div>
+            <div class="col-lg-1"></div>
+
+        </div>
     </div>
 
 {% endblock %}
