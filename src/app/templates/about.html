@@ -1,25 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container" style="padding: 15px;">
-        <p style="color: black; text-shadow: 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000;">
-            This page is dedicated to helping the gluten-less people of the world find
-            beer they can drink.
-            <br><br>
-            As someone with Celiac Disease who travels the United States a lot, I
-            wanted to create a way to keep track of and easily recall Gluten-Free
-            and Gluten-Reduced beers that I've had before. I'm hoping that this site
-            can be a resource for other people as well.
-            <br><br>
-            Have a beer that you would like to share with us? Fill out the form on our
-            <a href="{{ url_for('contribute_page') }}">Contribute</a> page.
-            <br><br>
-            Want to learn more about Celiac Disease or Gluten Free/Reduced beer? Check
-            out the links below.
-            <br>
-            <a href="https://celiac.org/about-celiac-disease/what-is-celiac-disease/">What is Celiac Disease?</a>
-            <br>
-            <a href="https://en.wikipedia.org/wiki/Gluten-free_beer">Wikipedia: Gluten-free beer</a>
-        </p>
-    </div>
+    <p style="color: black; text-shadow: 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000;">
+        This page is dedicated to helping the gluten-less people of the world find
+        beer they can drink.
+        <br><br>
+        As someone with Celiac Disease who travels the United States a lot, I
+        wanted to create a way to keep track of and easily recall Gluten-Free
+        and Gluten-Reduced beers that I've had before. I'm hoping that this site
+        can be a resource for other people as well.
+        <br><br>
+        Have a beer that you would like to share with us? Fill out the form on our
+        <a href="{{ url_for('contribute_page') }}">Contribute</a> page.
+        <br><br>
+        Want to learn more about Celiac Disease or Gluten Free/Reduced beer? Check
+        out the links below.
+        <br>
+        <a href="https://celiac.org/about-celiac-disease/what-is-celiac-disease/">What is Celiac Disease?</a>
+        <br>
+        <a href="https://en.wikipedia.org/wiki/Gluten-free_beer">Wikipedia: Gluten-free beer</a>
+    </p>
 {% endblock %}

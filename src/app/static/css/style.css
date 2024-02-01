@@ -70,7 +70,7 @@ input[type=radio] {
 @media (max-width: 1180px)
  {
     h1 {
-        font-size: 64px;
+        font-size: 56px;
     }
 
     h2 {
@@ -87,5 +87,9 @@ input[type=radio] {
 
     p2 {
         font-size: 20px;
+    }
+
+    body {
+        background-size: cover;
     }
  }
