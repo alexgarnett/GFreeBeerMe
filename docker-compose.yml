@@ -46,8 +46,8 @@ services:
 volumes:
   beer_app_volume:
     name: beer_app_volume
+    external: true
 
 networks:
   beer_app_network:
     name: beer_app_network
-    external: true
