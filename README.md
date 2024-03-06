@@ -26,21 +26,22 @@ etc. Encounters help users locate where they can purchase a beer. Users can subm
 By using the "Locate" tab, users can perform a location based search to find Encounters near them. Using the "Search" 
 tab, users can perform a text based search of all the beers in the database.
 
-# Installation
+# Running the App Locally
+## Installation
 If you desire, you can clone this repo and run the app locally.
 Make sure you have the latest version of Docker properly installed. Then, clone into the repo
 ```
 git clone https://github.com/alexgarnett/GFreeBeerMe
 ```
 
-# Run the App
+## Run the App
 In the root directory, run
 ```
 docker compose up
 ```
 By default, the app is hosted at https://localhost:8000
 
-# Testing
+## Testing
 In order to perform testing, all containers must be running. Then, in the root directory, run pytest.
 ```
 pytest
