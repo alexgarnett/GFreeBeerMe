@@ -1,21 +1,21 @@
 -- DROP TABLE IF EXISTS information;
 -- DROP TABLE IF EXISTS encounters;
 
+
+CREATE TABLE IF NOT EXISTS information (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    manufacturer TEXT,
+    city TEXT,
+    state TEXT,
+    country TEXT,
+    availability TEXT,
+    gf_or_gr TEXT
+);
+
 DO $$
 BEGIN
-
-    IF NOT EXISTS information (
-        CREATE TABLE information (
-            id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL,
-            manufacturer TEXT,
-            city TEXT,
-            state TEXT,
-            country TEXT,
-            availability TEXT,
-            gf_or_gr TEXT
-        );
-
+    IF NOT EXISTS (SELECT 1 FROM information) THEN
         INSERT INTO information (
             id, name, manufacturer, city, state, country,
             availability, gf_or_gr
@@ -49,22 +49,20 @@ BEGIN
             (27, 'Mandatory Fun', 'Mike Hess', 'San Diego', 'California', 'United States', 'Local', 'GR'),
             (28, 'Claritas', 'Mike Hess', 'San Diego', 'California', 'United States', 'Local', 'GR'),
             (29, 'Grazias', 'Mike Hess', 'San Diego', 'California', 'United States', 'Local', 'GR');
-    );
     END IF;
 END$$;
 
+CREATE TABLE IF NOT EXISTS encounters (
+    id INTEGER,
+    date_of DATE NOT NULL,
+    location POINT NOT NULL,
+    address TEXT,
+    content TEXT NOT NULL
+);
 
 DO $$
 BEGIN
-    IF NOT EXISTS encounters (
-        CREATE TABLE encounters (
-            id INTEGER,
-            date_of DATE NOT NULL,
-            location POINT NOT NULL,
-            address TEXT,
-            content TEXT NOT NULL
-        );
-
+    IF NOT EXISTS (SELECT 1 FROM encounters) THEN
         INSERT INTO encounters (
             id, date_of, location, address, content
             )
@@ -73,6 +71,5 @@ BEGIN
             '4770 N Congress Ave, Boynton Beach, FL 33426, United States',
             'I found a 6-pack of Copperpoint Lager in the beer cooler at Publix'
             );
-    );
     END IF;
 END$$;
