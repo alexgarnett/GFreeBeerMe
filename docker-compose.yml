@@ -8,6 +8,7 @@ services:
   db:
     container_name: beer_db
     image: alexgarnett/gfreebeerme:beer_db
+    restart: always
     ports:
       - "5433:5432"
     networks:
@@ -46,7 +47,7 @@ services:
 volumes:
   beer_app_volume:
     name: beer_app_volume
-    external: true
+    #external: true
 
 networks:
   beer_app_network:
