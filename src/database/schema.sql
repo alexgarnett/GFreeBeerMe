@@ -1,4 +1,3 @@
-CREATE DATABASE beer_app;
 
 CREATE TABLE IF NOT EXISTS information (
     id SERIAL PRIMARY KEY,
