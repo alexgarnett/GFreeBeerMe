@@ -1,6 +1,4 @@
--- DROP TABLE IF EXISTS information;
--- DROP TABLE IF EXISTS encounters;
-
+CREATE DATABASE beer_app;
 
 CREATE TABLE IF NOT EXISTS information (
     id SERIAL PRIMARY KEY,
